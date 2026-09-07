@@ -1,0 +1,668 @@
+                                
+
+                                /* ヘッダー：最初は隠れていて、スクロールで出現 */
+                                .site-header{
+                                position: fixed;
+                                top: 0; left: 0; right: 0;
+                                z-index: 100;
+                                background-color: var(--linen-deep) !important;
+                                transform: translateY(-100%);
+                                opacity: 0;
+                                transition: transform 0.5s ease, opacity 0.5s ease;
+                                }
+                                .site-header a{ color: var(--ink) !important; }
+                                .site-header.is-visible{
+                                transform: translateY(0);
+                                opacity: 1;
+                                }
+
+                                /* メインエリア：4分割の垂れ幕 */
+                                .n-maindrapes{
+                                display: flex;
+                                width: 100%;
+                                height: 100vh;
+                                min-height: 480px;
+                                }
+                                .n-band{
+                                flex: 1;
+                                position: relative;
+                                display: flex;
+                                align-items: flex-end;
+                                justify-content: center;
+                                padding-bottom: clamp(32px, 6vw, 64px);
+                                overflow: hidden;
+                                animation: n-drape-drop 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+                                }
+                                .n-band + .n-band{
+                                box-shadow: inset 2px 0 0 rgba(0,0,0,0.12);
+                                }
+                                .n-band--1{ background: var(--band-red);    color: var(--white); animation-delay: 0s; }
+                                .n-band--2{ background: var(--band-linen);  color: var(--ink);   animation-delay: 0.12s; }
+                                .n-band--3{ background: var(--band-nezumi); color: var(--white); animation-delay: 0.24s; }
+                                .n-band--4{ background: var(--band-navy);   color: var(--white); animation-delay: 0.36s; }
+                                .n-band__label{
+                                writing-mode: vertical-rl;
+                                font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+                                letter-spacing: 0.15em;
+                                line-height: 1.9;
+                                margin: 0;
+                                }
+                                @keyframes n-drape-drop{
+                                from{ transform: translateY(-100%); }
+                                to{ transform: translateY(0); }
+                                }
+                                @media (prefers-reduced-motion: reduce){
+                                .n-band{ animation: none; }
+                                }
+                                @media (max-width: 760px){
+                                .n-maindrapes{ height: auto; flex-direction: column; }
+                                .n-band{ height: 220px; }
+                                }
+
+                                /* ニュース・新商品バナー */
+                                .n-news{
+                                background: var(--white);
+                                padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 56px);
+                                }
+                                .n-news__heading{
+                                font-size: 1.3rem;
+                                color: var(--ink);
+                                margin: 0 0 28px;
+                                }
+
+
+                                /* フェードイン紹介セクション */
+                                .n-reveal-section{
+                                padding: clamp(96px, 14vw, 160px) clamp(20px, 6vw, 72px);
+                                min-height: 70vh;
+                                display: flex;
+                                align-items: center;
+                                cursor: pointer; /* クリックでリンクに飛べることが分かるように */
+                                }
+                                .n-reveal-section.bg-white{ background: var(--white); }
+                                .n-reveal-section.bg-linen{ background: var(--linen-pale); }
+
+                                .n-reveal-inner{
+                                width: 100%;
+                                max-width: 960px;
+                                margin: 0 auto;
+                                display: grid;
+                                grid-template-columns: 3fr 2fr; /* 画像側を広めに（体感1.5倍くらいのサイズ感に） */
+                                gap: clamp(12px, 2.5vw, 28px); /* 画像とテキストの距離を詰める */
+                                align-items: center;
+                                opacity: 0;
+                                transform: scale(0.2);
+                                transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+                                }
+                                .n-reveal-inner.is-visible{
+                                opacity: 1;
+                                transform: scale(1);
+                                }
+                                .n-reveal-inner > div{
+                                text-align: center; /* h3・pを中央揃えに */
+                                margin-left:-20px;
+                                }
+                                .n-reveal-section.rev .n-reveal-inner{ direction: rtl; }
+                                .n-reveal-section.rev .n-reveal-inner > *{ direction: ltr; }
+
+                                .n-reveal-illust img{
+                                width: 100%; height: auto; display: block;
+                                }
+                                .n-reveal-heading{
+                                font-family: "Shippori Mincho", serif;
+                                font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+                                display: inline-block;
+                                padding: 10px 24px;
+                                border-radius: 14px;
+                                margin: 0 0 20px;
+                                line-height: 1.4;
+                                }
+                                .n-reveal-section.bg-linen .n-reveal-heading{
+                                background: var(--band-red);
+                                color: var(--white);
+                                }
+                                .n-reveal-section.bg-white .n-reveal-heading{
+                                background: var(--band-navy);
+                                color: var(--white);
+                                }
+                                .n-reveal-text{
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.95rem;
+                                line-height: 1.9;
+                                color: var(--ink);
+                                margin: 0;
+                                }
+                                @media (max-width: 760px){
+                                .n-reveal-inner{ grid-template-columns: 1fr; }
+                                }
+
+                                .n-reveal{
+                                opacity: 0;
+                                transform: translateY(24px);
+                                transition: opacity 0.8s ease, transform 0.8s ease;
+                                }
+                                .n-reveal.is-visible{ opacity: 1; transform: none; }
+                                .n-reveal--d2{ transition-delay: 0.15s; }
+                                .n-reveal--d3{ transition-delay: 0.3s; }
+                                @media (prefers-reduced-motion: reduce){
+                                .n-reveal{ opacity: 1; transform: none; transition: none; }
+                                }
+                                                                
+                                /* --------------------------------------------------
+                                ① ヘッダー：横100%／ロゴ左・ナビ右／ドロップシャドウ／テクスチャ1
+                                -------------------------------------------------- */
+                                body.shop #mainHeader.site-header{
+                                width: 100%;
+                                max-width: none;
+                                margin: 0;
+                                box-shadow: 0 2px 14px rgba(59,42,24,0.18);
+                                background-image: var(--texture1);
+                                background-repeat: repeat;
+                                background-blend-mode: multiply;
+                                }
+                                body.shop #mainHeader.site-header #shopHeader{
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                flex-wrap: nowrap;
+                                width: 100%;
+                                margin:0;
+                                padding: 2px 10px;
+                                }
+                                body.shop #mainHeader.site-header #shopHeader h1{
+                                margin: 10px;
+                                font-size: 1.3rem;
+                                text-align: left;
+                                letter-spacing: 0.05em;
+                                }
+                                body.shop #mainHeader.site-header #shopHeader h1 img{
+                                max-width: 240px;
+                                width: auto;
+                                }
+                                body.shop #mainHeader.site-header nav{
+                                width: auto;
+                                border: none;
+                                margin: 5px;
+                                margin-right:12%;
+                                }
+                                body.shop #mainHeader.site-header nav ul{
+                                display: flex;
+                                flex-wrap: nowrap;
+                                justify-content: flex-end;
+                                width: auto;
+                                gap: 20px;
+                                }
+                                body.shop #mainHeader.site-header nav ul li{
+                                width: 100%;
+                                height: auto;
+                                width: 120px;
+                                text-align: center;
+                                }
+                                body.shop #mainHeader.site-header nav ul li:hover{
+                                
+                                height: auto;
+                                }
+                                body.shop #mainHeader.site-header nav ul li a{
+                                padding: 6px 0;
+                                }
+                                /* 画面が狭い時はロゴの下にナビが折り返される（崩れ防止） */
+                                @media (max-width: 600px){
+                                body.shop #mainHeader.site-header #shopHeader{
+                                    justify-content: center;
+                                    text-align: center;
+                                }
+                                body.shop #mainHeader.site-header nav ul{
+                                    justify-content: center;
+                                }
+                                }
+
+                                /* --------------------------------------------------
+                                ② NEWSバナー：横長＋中央を大きく手前に、左右は縮小して薄く
+                                -------------------------------------------------- */
+                                /* 左右の三角ボタンのスタイル */
+                                .n-news__prev,
+                                .n-news__next {
+                                    position: absolute;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    z-index: 10;
+                                    background: rgba(255, 255, 255, 0.9);
+                                    border: 1px solid #ddd;
+                                    width: 44px;
+                                    height: 44px;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    border-radius: 50%; /* 丸型 */
+                                    font-size: 16px;
+                                    color: #333;
+                                    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                                    transition: background 0.2s ease, transform 0.2s ease;
+                                }
+
+                                /* ホバー時の挙動 */
+                                .n-news__prev:hover,
+                                .n-news__next:hover {
+                                    background: #ffffff;
+                                    transform: translateY(-50%) scale(1.08);
+                                }
+
+                                :root{
+                                --news-banner-half: 300px; /* バナー幅600pxの半分 */
+                                --news-btn-offset: 46px;   /* バナーとボタンの間隔＋ボタン半径ぶん */
+                                }
+                                @media (max-width: 700px){
+                                :root{
+                                    --news-banner-half: 43vw; /* モバイル時のバナー幅86vwの半分 */
+                                }
+                                }
+
+                                /* 左側のボタン位置：中央バナーのすぐ左に */
+                                .n-news__prev {
+                                    left: calc(50% - var(--news-banner-half) - var(--news-btn-offset));
+                                }
+
+                                /* 右側のボタン位置：中央バナーのすぐ右に */
+                                .n-news__next {
+                                    right: calc(50% - var(--news-banner-half) - var(--news-btn-offset));
+                                }
+                                /* --------------------------------------------------
+                                ③ 全体にテクスチャを乗算で重ねる
+                                ・普通色（リネン・鼠色）→ texture1
+                                ・赤・紺 → texture2
+                                ・白 → texture3
+                                ※鼠色は「普通の色」グループとして texture1 にしています。
+                                    赤・紺グループのつもりであれば教えてください。
+                                -------------------------------------------------- */
+                                .n-band--2, .n-band--3{
+                                background-image: var(--texture1);
+                                background-repeat: repeat;
+                                background-blend-mode: multiply;
+                                }
+                                .n-band--1, .n-band--4{
+                                background-image: var(--texture1);
+                                background-repeat: repeat;
+                                background-blend-mode: multiply;
+                                }
+                                .n-news, .n-reveal-section.bg-white{
+                                background-image: var(--texture1);
+                                background-repeat: repeat;
+                                background-blend-mode: multiply;
+                                }
+                                .n-reveal-section.bg-linen{
+                                background-image: var(--texture1);
+                                background-repeat: repeat;
+                                background-blend-mode: multiply;
+                                }
+
+                                /* 1. 通常時のリンクやメニュー項目のベース設定 */
+                                body.shop #mainHeader.site-header a,
+                                body.shop #mainHeader.site-header .category-item { /* セレクタは実際のテンプレートに合わせて調整してください */
+                                    color: #333; /* 元の文字色 */
+                                    background-color: transparent;
+                                    border-bottom: none; /* これまで出ていた border-bottom を消す場合 */
+                                    border-radius: 4px; /* 角をラディウスにする */
+                                    transition: background-color 0.2s ease, color 0.2s ease;
+                                }
+
+                                /* 2. ホバー時の挙動（文字色がヘッダーカラーになり、背景や角丸が変わる） */
+                                body.shop #mainHeader.site-header a:hover,
+                                body.shop #mainHeader.site-header .category-item:hover {
+                                    color: #ヘッダーカラーのHEX値; /* 例: #ff0000 など */
+                                    background-color: #ffffff; /* ホバー時に背景を白にする場合（必要に応じて変更） */
+                                    border-radius: 4px; /* 角をラディウスにする */
+                                }
+
+                                /* 3. 現在選択している場所（カレントページ）の挙動 */
+                                body.shop #mainHeader.site-header .current a,
+                                body.shop #mainHeader.site-header a.active {
+                                    background-color: #ffffff; /* 選択している場所を白にする */
+                                    color: #ヘッダーカラーのHEX値;
+                                    border-radius: 4px; /* 角をラディウスにする */
+                                    border-bottom: none;
+                                }
+
+                                /* --------------------------------------------------
+                                NEWSカルーセル（Swiper.js／カバーフローエフェクト）
+                                -------------------------------------------------- */
+                                .n-news-swiper .swiper-slide{
+                                position: relative;
+                                width: 600px;
+                                height: 280px;
+                                overflow: hidden;
+                                background: var(--linen-pale);
+                                }
+                                .n-news-swiper .swiper-slide img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                display: block;
+                                transition: transform 0.4s ease;
+                                }
+                                /* 中央（アクティブ）のバナーだけ、ホバーで画像がわずかに拡大 */
+                                .n-news-swiper .swiper-slide-active:hover img{
+                                transform: scale(1.04);
+                                }
+                                /* 中央以外のバナーにうっすらグレーを乗算 */
+                                .n-news-swiper .swiper-slide::after{
+                                content: "";
+                                position: absolute;
+                                inset: 0;
+                                background: rgba(90, 90, 90, 0.5);
+                                mix-blend-mode: multiply;
+                                opacity: 1;
+                                transition: opacity 0.4s ease;
+                                pointer-events: none;
+                                }
+                                .n-news-swiper .swiper-slide-active::after{
+                                opacity: 0;
+                                }
+
+                                .n-news__link{
+                                display: block;
+                                width: 100%;
+                                height: 100%;
+                                }
+                                @media (max-width: 700px){
+                                .n-news-swiper .swiper-slide{
+                                    width: 86vw;
+                                    height: calc(86vw * 280 / 600);
+                                }
+                                }
+
+                                .n-reveal-follow{
+                                width: 100%;
+                                }
+
+
+                                /* --------------------------------------------------
+                                ABOUTページ：目次とセクションの骨組み
+                                -------------------------------------------------- */
+                                .about-toc{
+                                max-width: 960px;
+                                margin: 48px auto;
+                                padding: 24px clamp(20px, 5vw, 40px);
+                                background: var(--linen-pale);
+                                border-radius: 14px;
+                                }
+                                .about-toc ul{
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: center;
+                                gap: 12px 28px;
+                                }
+                                .about-toc a{
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.9rem;
+                                color: var(--ink);
+                                text-decoration: none;
+                                border-bottom: 1px solid var(--band-red);
+                                padding-bottom: 2px;
+                                }
+                                .about-toc a:hover{
+                                color: var(--band-red);
+                                }
+
+                                .about-block{
+                                padding: clamp(56px, 8vw, 88px) clamp(20px, 5vw, 40px);
+                                scroll-margin-top: 100px; /* ヘッダーが出現した状態でジャンプしても隠れないように */
+                                }
+                                .about-block.bg-white{ background: var(--white); }
+                                .about-block.bg-linen{ background: var(--linen-pale); }
+                                .about-block__inner{
+                                max-width: 960px;
+                                margin: 0 auto;
+                                }
+                                .about-block__heading{
+                                font-family: "Shippori Mincho", serif;
+                                font-size: clamp(1.5rem, 3vw, 2rem);
+                                color: var(--ink);
+                                display: inline-block;
+                                margin: 0 0 24px;
+                                padding-bottom: 10px;
+                                border-bottom: 2px solid var(--band-red);
+                                }
+                                .about-block__body{
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.95rem;
+                                line-height: 1.9;
+                                color: var(--ink);
+                                }
+                                .about-card-grid{
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: 72px;
+                                }
+                                .about-card{
+                                width: 100%;
+                                max-width: 960px; /* カード全体の最大幅。これでメイン画像が大きく見えます */
+                                }
+                                .about-card__main{
+                                width: 100%;
+                                object-fit: cover;
+                                display: block;
+                                cursor: zoom-in;
+                                }
+
+                                .about-card__row{
+                                display: flex;
+                                flex-direction: row-reverse; /* 画像を左、文字を右に */
+                                gap: 12px;
+                                align-items: flex-start;
+                                }
+                                .about-card__content{
+                                flex: 2;
+                                min-width: 0;
+                                text-align: left;
+                                }
+                                .about-card__media{
+                                flex: 2;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center; /* サブ画像を中央ぞろえに */
+                                max-width:480px;
+                                }
+                                .about-card__subimages{
+                                display: flex;
+                                flex-direction: row; /* 縦並び→横並びに変更 */
+                                flex-wrap: wrap;
+                                justify-content: center;
+                                gap: 10px;
+                                margin-top: 12px;
+                                }
+                                .about-card__subimages img{
+                                width: 80px;
+                                aspect-ratio: 1 / 1;
+                                object-fit: cover;
+                                display: block;
+                                cursor: zoom-in;
+                                }
+                                @media (max-width: 760px){
+                                .about-card__row{
+                                    flex-direction: column;
+                                }
+                                .about-card__media{
+                                    order: 1; /* スマホでは画像グループを先に表示 */
+                                    width: 100%;
+                                }
+                                .about-card__content{
+                                    order: 2; /* 文字はそのあと */
+                                    margin-top: 16px;
+                                }
+                                }
+
+
+                                .about-card h3, .about-block__body h3{
+                                background: var(--band-navy);
+                                color: var(--white);
+                                display: inline-block;
+                                padding: 6px 16px;
+                                border-radius: 8px;
+                                font-family: "Shippori Mincho", serif;
+                                font-size: 1.05rem;
+                                margin: 0 0 12px;
+                                }
+                                .about-card h4, .about-block__body h4{
+                                border: 2px solid var(--band-navy);
+                                color: var(--band-navy);
+                                font-weight: bold;
+                                display: inline-block;
+                                padding: 4px 14px;
+                                border-radius: 4px;
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.95rem;
+                                margin: 0 0 10px;
+                                }
+                                .about-card h5, .about-block__body h5{
+                                color: var(--band-red);
+                                font-weight: bold;
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.9rem;
+                                border-left: 6px double var(--band-red);
+                                padding-left: 12px;
+                                margin: 0 0 8px;
+                                }
+
+                                .about-card h6, .about-block__body h6{
+                                font-weight: bold;
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.88rem;
+                                color: var(--ink);
+                                margin: 0 0 6px;
+                                }
+                                .about-card p, .about-block__body p{
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.9rem;
+                                line-height: 1.8;
+                                color: var(--ink);
+                                margin: 0 0 10px;
+                                text-align: left;
+                                }
+                                .about-card a, .about-block__body a{
+                                color: var(--band-red);
+                                text-decoration: underline;
+                                }
+
+
+                                /* --------------------------------------------------
+                                タペストリー風メニュー
+                                -------------------------------------------------- */
+                                .tapestry-menu{
+                                position: fixed;
+                                top: 100px;
+                                left: 40%;
+                                transform: translateX(-50%);
+                                width: 220px;
+                                z-index: 90;
+                                cursor: grab;
+                                box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+                                animation: n-drape-drop 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+                                user-select: none;
+                                }
+                                .tapestry-menu.is-dragging{
+                                cursor: grabbing;
+                                }
+                                .tapestry-menu__cap{
+                                height: 26px;
+                                width: calc(100% + 20px);
+                                margin-left: -10px;
+                                background: var(--linen-deep);
+                                }
+                                .tapestry-menu__body{
+                                background: var(--band-red);
+                                padding: 20px 18px;
+                                max-height: 60vh;
+                                overflow-y: auto;
+                                }
+                                .tapestry-menu__item{
+                                margin-bottom: 16px;
+                                }
+                                .tapestry-menu__item:last-child{
+                                margin-bottom: 0;
+                                }
+                                .tapestry-menu__item > a{
+                                color: var(--white);
+                                font-family: "Shippori Mincho", serif;
+                                font-size: 0.88rem;
+                                text-decoration: none;
+                                display: inline-block;
+                                margin-bottom: 2px;
+                                }
+                                .tapestry-menu__item > a:hover{
+                                text-decoration: underline;
+                                }
+                                .tapestry-menu__item > a.is-current{
+                                font-weight: bold;
+                                border-bottom: 1px dotted var(--white);
+                                padding-bottom: 2px;
+                                }
+                                .tapestry-menu__item > a:hover{
+                                text-decoration: underline;
+                                }
+                                .tapestry-menu__sub{
+                                list-style: none;
+                                margin: 0;
+                                padding-left: 12px;
+                                border-left: 1px solid rgba(255,255,255,0.45);
+                                }
+                                .tapestry-menu__sub li{
+                                margin-bottom: 6px;
+                                }
+                                .tapestry-menu__sub a{
+                                color: rgba(255,255,255,0.85);
+                                font-family: "Zen Kaku Gothic New", sans-serif;
+                                font-size: 0.6rem;
+                                text-decoration: none;
+                                }
+                                .tapestry-menu__sub a:hover{
+                                text-decoration: underline;
+                                }
+
+                                /* スマホ用ハンバーガーボタン（ヘッダー右下） */
+                                .menu-toggle{
+                                display: none;
+                                position: absolute;
+                                right: 14px;
+                                bottom: 8px;
+                                width: 36px;
+                                height: 36px;
+                                border: none;
+                                border-radius: 6px;
+                                background: var(--band-red);
+                                color: var(--white);
+                                font-size: 1.15rem;
+                                line-height: 36px;
+                                cursor: pointer;
+                                }
+
+                                @media (max-width: 760px){
+                                .tapestry-menu{
+                                    display: none;
+                                    position: fixed;
+                                    top: auto;
+                                    bottom: 0;
+                                    left: 0;
+                                    right: 0;
+                                    width: 100%;
+                                    transform: none;
+                                    animation: none;
+                                    box-shadow: 0 -6px 20px rgba(0,0,0,0.2);
+                                }
+                                .tapestry-menu.is-open{
+                                    display: block;
+                                }
+                                .tapestry-menu__cap{
+                                    display: none;
+                                }
+                                .menu-toggle{
+                                    display: block;
+                                }
+                                }
+
+
+                                
