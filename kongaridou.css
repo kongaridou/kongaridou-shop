@@ -416,6 +416,7 @@ scroll-margin-top: 100px; /* ヘッダーが出現した状態でジャンプし
 .about-block__inner{
 max-width: 960px;
 margin: 0 auto;
+min-height: 70vh;
 }
 .about-block__heading{
 font-family: "Shippori Mincho", serif;
