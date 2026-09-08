@@ -320,6 +320,59 @@ function setActive(id){
         ul.style.margin = '6px 0 0';
         ul.style.paddingLeft = '12px';
         ul.style.borderLeft = '1px solid rgba(255,255,255,0.45)';
+        ul.style.opacity = '1';
+        ul.style.maxHeight = '300px';
+        ul.innerHTML = subMap[key].map(function(s){
+            return '<li style="margin-bottom:6px;"><a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;">' + s.label + '</a></li>';
+        }).join('');
+        itemEl.appendChild(ul);
+        }
+    }else{
+        if(link) unmarkCurrent(link);
+        if(sub) sub.remove();
+    }
+    });
+}
+
+if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+        if(entry.isIntersecting){
+        setActive(entry.target.id);
+        }
+    });
+    }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+    sections.forEach(function(sec){ io.observe(sec); });
+}
+}
+
+
+function markCurrent(link){
+    link.style.fontWeight = 'bold';
+    link.style.borderBottom = '5px dotted #fff';
+    link.style.paddingBottom = '3px';
+}
+function unmarkCurrent(link){
+    link.style.fontWeight = '';
+    link.style.borderBottom = '';
+    link.style.paddingBottom = '';
+}
+
+function setActive(id){
+    Object.keys(itemMap).forEach(function(key){
+    var itemEl = itemMap[key];
+    var link = itemEl.querySelector('a');
+    var sub = itemEl.querySelector('.tapestry-menu__sub');
+    if(key === id){
+        if(link) markCurrent(link);
+        if(!sub && subMap[key]){
+        var ul = document.createElement('ul');
+        ul.className = 'tapestry-menu__sub';
+        ul.style.listStyle = 'none';
+        ul.style.margin = '6px 0 0';
+        ul.style.paddingLeft = '12px';
+        ul.style.borderLeft = '1px solid rgba(255,255,255,0.45)';
         ul.innerHTML = subMap[key].map(function(s){
             return '<li style="margin-bottom:6px;"><a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;">' + s.label + '</a></li>';
         }).join('');
