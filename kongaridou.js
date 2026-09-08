@@ -1,3 +1,8 @@
+==================================================================
+kongaridou.js 全文（①②③対応版）
+（GitHubのkongaridou.jsの中身と丸ごと置き換えてください）
+==================================================================
+
 $(function(){
 // ヘッダーの出現制御
 var $header = $('.site-header');
@@ -42,7 +47,6 @@ sections.forEach(function(sec){
 });
 }
 
-// 目次(about-toc)の中の data-link 属性から、実際のリンク先をセットする
 function initTocLinks(){
 document.querySelectorAll('.about-toc a[data-link]').forEach(function(a){
     var key = a.getAttribute('data-link');
@@ -51,7 +55,6 @@ document.querySelectorAll('.about-toc a[data-link]').forEach(function(a){
 });
 }
 
-// 「背景は普通にスクロール、中身だけゆっくり遅れる」パラレックス
 function initSlowFollow(selector, speedFactor){
 var els = document.querySelectorAll(selector);
 if(els.length === 0) return;
@@ -134,8 +137,6 @@ new Swiper('.n-news-swiper', {
 });
 }
 
-// グッズの種類・布の種類など、「1枚ずつ自由なHTML」の配列を
-// カードとして並べる汎用の関数。
 function renderCardGrid(containerId, items){
 var container = document.getElementById(containerId);
 if(!container || !items) return;
@@ -144,14 +145,11 @@ container.innerHTML = items.map(function(html){
 }).join('');
 }
 
-// カード内の画像をクリックで拡大表示できるようにする（BASE標準のColorboxを使用）
 function initAboutLightbox(){
 if(typeof $ === 'undefined' || !$.fn.colorbox) return;
 $('.about-lightbox').colorbox({ maxWidth: '90%', maxHeight: '90%' });
 }
 
-// ABOUTページの各セクション本文(SITE_CONFIG.sections)を、
-// 対応する id="section-◯◯" の入れ物に流し込む
 function renderSections(){
 var sections = (window.SITE_CONFIG && window.SITE_CONFIG.sections) || {};
 Object.keys(sections).forEach(function(key){
@@ -160,7 +158,9 @@ Object.keys(sections).forEach(function(key){
 });
 }
 
-// タペストリーメニュー本体の描画とドラッグ操作
+// ==================================================================
+// タペストリーメニュー本体（①ドラッグを画面内に固定／見た目はインラインで直接指定）
+// ==================================================================
 function initTapestryMenu(){
 var el = document.getElementById('tapestryMenu');
 var body = document.getElementById('tapestryMenuBody');
@@ -178,20 +178,40 @@ function keyOf(item){
     return href.indexOf('#') === 0 ? href.slice(1) : null;
 }
 
-// 副題はここでは出さない。今見ているセクションの分だけ initTapestryScrollSpy が出し入れする
+// ③ 副題はここでは絶対に出さない（見出しだけ描画。副題はscrollSpyが必要な時だけ追加する）
 body.innerHTML = items.map(function(item){
     var key = keyOf(item);
     return '<div class="tapestry-menu__item"' + (key ? ' data-key="' + key + '"' : '') + '><a href="' + resolveLink(item) + '">' + item.label + '</a></div>';
 }).join('');
 
-function resetPosition(withAnim){
-    el.style.transition = withAnim ? '' : 'none';
-    el.style.left = '40%';
-    el.style.top = '100px';
-    el.style.transform = 'translateX(-50%)';
+// ① 画面の端でぴたりと止めるためのクランプ関数（マージン0＝完全に画面内に収める）
+function clamp(left, top){
+    var w = el.offsetWidth;
+    var h = el.offsetHeight;
+    var maxLeft = Math.max(0, window.innerWidth - w);
+    var maxTop = Math.max(0, window.innerHeight - h);
+    return {
+    left: Math.min(Math.max(left, 0), maxLeft),
+    top: Math.min(Math.max(top, 0), maxTop)
+    };
 }
 
-// ドラッグで自由に移動（PCのみ）。画面外へは出せない
+function applyPosition(left, top){
+    var pos = clamp(left, top);
+    el.style.left = pos.left + 'px';
+    el.style.top = pos.top + 'px';
+}
+
+function resetPosition(){
+    el.style.transition = '';
+    var rect = el.getBoundingClientRect();
+    // 初期位置：画面中央よりやや左（220px幅の要素を、中央から少し左に）
+    var targetLeft = window.innerWidth * 0.4 - el.offsetWidth / 2;
+    applyPosition(targetLeft, 100);
+    el.style.transform = 'none';
+}
+
+// ドラッグ操作
 var isDragging = false, startX, startY, initialLeft, initialTop;
 
 function onDown(e){
@@ -204,9 +224,8 @@ function onDown(e){
     initialLeft = rect.left;
     initialTop = rect.top;
     el.style.transition = 'none';
-    el.style.left = initialLeft + 'px';
-    el.style.top = initialTop + 'px';
     el.style.transform = 'none';
+    applyPosition(initialLeft, initialTop); // 現在位置をそのままleft/topに固定してから開始（ワープ防止）
     el.classList.add('is-dragging');
     document.addEventListener('mousemove', onMove);
     document.addEventListener('touchmove', onMove, { passive: false });
@@ -219,16 +238,15 @@ function onMove(e){
     var point = e.touches ? e.touches[0] : e;
     var dx = point.clientX - startX;
     var dy = point.clientY - startY;
-    var maxLeft = window.innerWidth - el.offsetWidth;
-    var maxTop = window.innerHeight - el.offsetHeight;
-    var newLeft = Math.max(0, Math.min(initialLeft + dx, maxLeft));
-    var newTop = Math.max(0, Math.min(initialTop + dy, maxTop));
-    el.style.left = newLeft + 'px';
-    el.style.top = newTop + 'px';
+    applyPosition(initialLeft + dx, initialTop + dy);
 }
 function onUp(){
+    if(!isDragging) return;
     isDragging = false;
     el.classList.remove('is-dragging');
+    // 念のため、離した瞬間にもう一度クランプをかけ直す
+    var rect = el.getBoundingClientRect();
+    applyPosition(rect.left, rect.top);
     document.removeEventListener('mousemove', onMove);
     document.removeEventListener('touchmove', onMove);
     document.removeEventListener('mouseup', onUp);
@@ -237,15 +255,20 @@ function onUp(){
 el.addEventListener('mousedown', onDown);
 el.addEventListener('touchstart', onDown, { passive: true });
 
-// ウィンドウサイズが変わって画面外に出てしまったら、上から出し直す
+// ウィンドウサイズが変わって画面外に出てしまったら、位置を再クランプ
 window.addEventListener('resize', function(){
     if(window.innerWidth <= 760) return;
     var rect = el.getBoundingClientRect();
-    var offScreen = rect.right < 40 || rect.left > window.innerWidth - 40 || rect.bottom < 40 || rect.top > window.innerHeight - 40;
+    var offScreen = rect.right <= 0 || rect.left >= window.innerWidth || rect.bottom <= 0 || rect.top >= window.innerHeight;
     if(offScreen){
-    resetPosition(false);
+    resetPosition();
+    }else{
+    applyPosition(rect.left, rect.top);
     }
 });
+
+// 初期位置を明示的にセット（CSSのleft:40%頼みにせず、JSで確定させる）
+resetPosition();
 
 // スマホ：ハンバーガーで開閉
 var toggle = document.getElementById('menuToggle');
@@ -256,8 +279,10 @@ if(toggle){
 }
 }
 
-// 今スクロールして見ているセクションをタペストリーでハイライトし、
-// そのセクションの副題だけをタペストリーに出す
+// ==================================================================
+// ②③ 今見ているセクションのハイライトと副題の出し入れ
+// （太字・下線はCSSに頼らず、直接インラインスタイルで指定）
+// ==================================================================
 function initTapestryScrollSpy(){
 var sections = document.querySelectorAll('.about-block[id]');
 var menuItems = document.querySelectorAll('.tapestry-menu__item[data-key]');
@@ -275,24 +300,38 @@ menuConfig.forEach(function(item){
     if(key && item.sub) subMap[key] = item.sub;
 });
 
+function markCurrent(link){
+    link.style.fontWeight = 'bold';
+    link.style.borderBottom = '5px dotted #fff';
+    link.style.paddingBottom = '3px';
+}
+function unmarkCurrent(link){
+    link.style.fontWeight = '';
+    link.style.borderBottom = '';
+    link.style.paddingBottom = '';
+}
+
 function setActive(id){
     Object.keys(itemMap).forEach(function(key){
     var itemEl = itemMap[key];
     var link = itemEl.querySelector('a');
     var sub = itemEl.querySelector('.tapestry-menu__sub');
     if(key === id){
-        if(link) link.classList.add('is-current');
+        if(link) markCurrent(link);
         if(!sub && subMap[key]){
         var ul = document.createElement('ul');
         ul.className = 'tapestry-menu__sub';
+        ul.style.listStyle = 'none';
+        ul.style.margin = '6px 0 0';
+        ul.style.paddingLeft = '12px';
+        ul.style.borderLeft = '1px solid rgba(255,255,255,0.45)';
         ul.innerHTML = subMap[key].map(function(s){
-            return '<li><a href="' + (s.link || '#') + '">' + s.label + '</a></li>';
+            return '<li style="margin-bottom:6px;"><a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;">' + s.label + '</a></li>';
         }).join('');
         itemEl.appendChild(ul);
-        window.requestAnimationFrame(function(){ ul.classList.add('is-visible'); });
         }
     }else{
-        if(link) link.classList.remove('is-current');
+        if(link) unmarkCurrent(link);
         if(sub) sub.remove();
     }
     });
@@ -308,6 +347,9 @@ if('IntersectionObserver' in window){
     }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
 
     sections.forEach(function(sec){ io.observe(sec); });
+}else{
+    // IntersectionObserver非対応ブラウザ向けの保険：何も表示しない
+    setActive(null);
 }
 }
 
