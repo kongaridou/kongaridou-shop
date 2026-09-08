@@ -204,6 +204,8 @@ function onDown(e){
     initialLeft = rect.left;
     initialTop = rect.top;
     el.style.transition = 'none';
+    el.style.left = initialLeft + 'px';
+    el.style.top = initialTop + 'px';
     el.style.transform = 'none';
     el.classList.add('is-dragging');
     document.addEventListener('mousemove', onMove);
