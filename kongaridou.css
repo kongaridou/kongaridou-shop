@@ -713,3 +713,56 @@ cursor: pointer;
   margin-top: 6px;
 }
 
+==================================================================
+タペストリーメニュー 追加調整
+（kongaridou.css の一番下に、そのまま追記してください）
+==================================================================
+
+.tapestry-menu__item{
+  margin-bottom: 8px;
+}
+
+.tapestry-menu__item > a.is-current{
+  font-weight: bold;
+  border-bottom: 3px dotted var(--white);
+  padding-bottom: 3px;
+}
+
+.tapestry-menu__sub{
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255,255,255,0.45);
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+.tapestry-menu__sub.is-visible{
+  opacity: 1;
+  max-height: 300px;
+  margin-top: 6px;
+}
+
+.about-link-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.about-link-list a{
+  display: inline-block;
+  padding: 10px 18px;
+  background: var(--linen-pale);
+  border-radius: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+.about-link-list a:hover{
+  background: var(--band-red);
+  color: var(--white);
+}
+
+
