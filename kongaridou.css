@@ -713,6 +713,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .about-card img[src$=".jpeg"],
 .about-block__body img[src$=".jpg"],
 .about-block__body img[src$=".jpeg"] {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
 }
 
