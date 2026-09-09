@@ -25,7 +25,8 @@ body.shop #mainHeader.site-header{
   margin: 0;
   box-shadow: 0 2px 14px rgba(59,42,24,0.18);
   background-image: var(--texture1);
-  background-repeat: repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
   background-blend-mode: multiply;
 }
 body.shop #mainHeader.site-header #shopHeader{
@@ -366,15 +367,17 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .about-block.bg-white{
   background: var(--white);
-  background-image: var(--texture1);
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+  background-image: linear-gradient(var(--texture-fade), var(--texture-fade)), var(--texture3);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: normal, multiply;
 }
 .about-block.bg-linen{
   background: var(--linen-pale);
-  background-image: var(--texture1);
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+  background-image: linear-gradient(var(--texture-fade), var(--texture-fade)), var(--texture1);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: normal, multiply;
 }
 .about-block__inner{
   max-width: 960px;
