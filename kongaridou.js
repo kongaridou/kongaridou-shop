@@ -38,6 +38,44 @@ $(function () {
 });
 
 
+// ページ内リンク(#で始まるa)をクリックした時、加減速しながらスクロールする
+function smoothScrollTo(targetY, duration) {
+    var startY = window.scrollY;
+    var diff = targetY - startY;
+    var startTime = performance.now();
+
+    function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function step(currentTime) {
+        var elapsed = currentTime - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        window.scrollTo(0, startY + diff * easeInOutCubic(progress));
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        }
+    }
+    requestAnimationFrame(step);
+}
+
+function initSmoothAnchors() {
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        var id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (!target) return;
+
+        e.preventDefault();
+        var headerOffset = 100; // 固定ヘッダー分の余白
+        var targetY = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+        smoothScrollTo(targetY, 900); // 900ミリ秒かけて移動
+    });
+}
+
+
 // ------------------------------------------------------------------
 // 2. トップページ reveal セクションのクリックリンク
 // ------------------------------------------------------------------
@@ -435,8 +473,9 @@ function initTapestryScrollSpy() {
 // ------------------------------------------------------------------
 $(document).ready(function () {
     initNewsCarousel();
+    renderAboutToc();
     initRevealLinks();
-    initTocLinks();
+    initSmoothAnchors();
     initSlowFollow('.n-reveal-follow', 0.68);
     renderSections();
     renderCardGrid('goodsTypesGrid', window.SITE_CONFIG.goodsTypes);
