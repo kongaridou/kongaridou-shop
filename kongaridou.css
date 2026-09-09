@@ -474,7 +474,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--band-navy);
   font-weight: bold;
   display: inline-block;
-  padding: 4px 14px;
+  padding: 8px 14px 4px;
   border-radius: 4px;
   font-family: "Zen Kaku Gothic New", sans-serif;
   font-size: 0.95rem;
@@ -503,7 +503,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--ink);
   margin: 0;
   max-width: 600px;
-  margin-left: auto;
+  margin-left: 6px;
   margin-right: auto;
   margin-bottom: 12px;
 }
