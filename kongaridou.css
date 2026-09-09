@@ -410,7 +410,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .about-card__content{
   flex: 2;
   min-width: 0;
-  text-align: center;
+  text-align: left;
 }
 .about-card__media{
   flex: 2;
@@ -519,7 +519,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 ================================================================== */
 .about-link-list{
   list-style: none;
-  margin: 16px 0 0;
+  margin: 20px auto 16px;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
