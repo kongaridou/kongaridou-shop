@@ -75,7 +75,25 @@ function initSmoothAnchors() {
     });
 }
 
+// ------------------------------------------------------------------
+// 目次(about-toc)を SITE_CONFIG.menu から自動生成する
+// ------------------------------------------------------------------
+function renderAboutToc() {
+    var list = document.getElementById('aboutTocList');
+    if (!list) return;
 
+    var items = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
+    var links = (window.SITE_CONFIG && window.SITE_CONFIG.links) || {};
+
+    function resolveLink(item) {
+        if (item.linkKey) return links[item.linkKey] || '#';
+        return item.link || '#';
+    }
+
+    list.innerHTML = items.map(function (item) {
+        return '<li><a href="' + resolveLink(item) + '">' + item.label + '</a></li>';
+    }).join('');
+}
 // ------------------------------------------------------------------
 // 2. トップページ reveal セクションのクリックリンク
 // ------------------------------------------------------------------
