@@ -512,16 +512,21 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--ink);
   margin: 0;
 }
-.about-card p, .about-block__body p{
+.about-card p {
   font-family: "Zen Kaku Gothic New", sans-serif;
   font-size: 0.9rem;
   line-height: 1.8;
   color: var(--ink);
-  margin: 0;
   max-width: 600px;
-  margin-left: 14px;
-  margin-right: auto;
-  margin-bottom: 12px;
+  margin: 0 0 12px 14px;
+}
+.about-block__body p {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--ink);
+  max-width: 600px;
+  margin: 0 auto 12px auto;
 }
 .about-card a, .about-block__body a{
   color: var(--band-red);
