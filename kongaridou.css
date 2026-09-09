@@ -544,6 +544,11 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .about-block.bg-linen .about-link-list a{
   background: var(--white);
 }
+.about-block.bg-linen .about-link-list a:hover{
+  background: var(--band-red);
+  color: var(--white);
+}
+
 .about-card__banner{
   display: block;
   width: 100%;
