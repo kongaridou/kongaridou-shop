@@ -122,26 +122,33 @@ function initSlowFollow(selector, speedFactor) {
 
     var baseTops = [];
     var ticking = false;
+    var currentActiveId = null; // 今アクティブなセクションを覚えておく
 
-    function measure() {
-        baseTops = Array.prototype.map.call(els, function (el) {
-            var prevTransform = el.style.transform;
-            el.style.transform = 'none';
-            var top = el.getBoundingClientRect().top + window.scrollY;
-            el.style.transform = prevTransform;
-            return top;
-        });
-    }
+    function updateActive() {
+        var viewportCenter = window.innerHeight / 2;
+        var bestId = null;
+        var bestDistance = Infinity;
 
-    function update() {
-        var scrollY = window.scrollY;
-        els.forEach(function (el, i) {
-            var naturalTop = baseTops[i] - scrollY;
-            var move = -naturalTop * (1 - speedFactor);
-            el.style.transform = 'translateY(' + move + 'px)';
+        sections.forEach(function (sec) {
+            var rect = sec.getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                var center = rect.top + rect.height / 2;
+                var distance = Math.abs(center - viewportCenter);
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestId = sec.id;
+                }
+            }
         });
+
+        // 前回と同じセクションなら何もしない（ここがちらつき防止のポイント）
+        if (bestId && bestId !== currentActiveId) {
+            currentActiveId = bestId;
+            setActive(bestId);
+        }
         ticking = false;
     }
+
 
     measure();
     update();
