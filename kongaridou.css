@@ -603,7 +603,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   height: 26px;
   width: calc(100% + 20px);
   margin-left: -10px;
-  background: var(--ink);
+  background: var(--linen-deep);
 }
 .tapestry-menu__body{
   background: var(--band-red);
