@@ -407,6 +407,10 @@ function initTapestryScrollSpy() {
     });
 
     function markCurrent(link) {
+        if (link._unmarkTimer) {
+            clearTimeout(link._unmarkTimer);
+            link._unmarkTimer = null;
+        }
         link.style.fontWeight = 'bold';
         link.style.paddingBottom = '3px';
         link.style.borderBottom = '5px dotted rgba(255,255,255,0)';
@@ -421,11 +425,12 @@ function initTapestryScrollSpy() {
     function unmarkCurrent(link) {
         link.style.transition = 'border-bottom-color 0.35s ease';
         link.style.borderBottomColor = 'rgba(255,255,255,0)';
-        setTimeout(function () {
+        link._unmarkTimer = setTimeout(function () {
             link.style.fontWeight = '';
             link.style.borderBottom = '';
             link.style.paddingBottom = '';
             link.style.transition = '';
+            link._unmarkTimer = null;
         }, 350);
     }
 
