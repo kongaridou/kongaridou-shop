@@ -334,6 +334,9 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   margin: 48px auto;
   padding: 24px clamp(20px, 5vw, 40px);
   background: var(--linen-pale);
+  background-image: var(--texture1);
+  background-repeat: repeat;
+  background-blend-mode: multiply;
   border-radius: 14px;
 }
 .about-toc ul{
@@ -361,8 +364,18 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   padding: clamp(24px, 8vw, 88px) clamp(20px, 5vw, 40px);
   scroll-margin-top: 100px;
 }
-.about-block.bg-white{ background: var(--white); }
-.about-block.bg-linen{ background: var(--linen-pale); }
+.about-block.bg-white{
+  background: var(--white);
+  background-image: var(--texture1);
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+.about-block.bg-linen{
+  background: var(--linen-pale);
+  background-image: var(--texture1);
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
 .about-block__inner{
   max-width: 960px;
   margin: 0 auto;
@@ -590,10 +603,13 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   height: 26px;
   width: calc(100% + 20px);
   margin-left: -10px;
-  background: var(--linen-deep);
+  background: var(--ink);
 }
 .tapestry-menu__body{
   background: var(--band-red);
+  background-image: var(--texture2);
+  background-repeat: repeat;
+  background-blend-mode: multiply;
   padding: 20px 18px;
   max-height: 60vh;
   overflow-y: auto;
@@ -692,3 +708,11 @@ body.shop #mainHeader.site-header nav ul li a:hover{
     display: block;
   }
 }
+
+.about-card img[src$=".jpg"],
+.about-card img[src$=".jpeg"],
+.about-block__body img[src$=".jpg"],
+.about-block__body img[src$=".jpeg"] {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
