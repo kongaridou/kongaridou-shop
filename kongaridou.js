@@ -407,6 +407,7 @@ function initTapestryScrollSpy() {
     });
 
     function markCurrent(link) {
+        // 前回の「消す」予約が残っていたらキャンセルする（ここが今回のポイント）
         if (link._unmarkTimer) {
             clearTimeout(link._unmarkTimer);
             link._unmarkTimer = null;
