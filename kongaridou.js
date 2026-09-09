@@ -406,8 +406,10 @@ function initTapestryScrollSpy() {
         }
     });
 
-    function markCurrent(link) {
-        // 前回の「消す」予約が残っていたらキャンセルする（ここが今回のポイント）
+function markCurrent(link) {
+        if (link._isCurrent) return; // すでにアクティブなら何もしない（ここが今回の本命）
+        link._isCurrent = true;
+
         if (link._unmarkTimer) {
             clearTimeout(link._unmarkTimer);
             link._unmarkTimer = null;
@@ -424,6 +426,9 @@ function initTapestryScrollSpy() {
     }
 
     function unmarkCurrent(link) {
+        if (!link._isCurrent) return; // すでに非アクティブなら何もしない
+        link._isCurrent = false;
+
         link.style.transition = 'border-bottom-color 0.35s ease';
         link.style.borderBottomColor = 'rgba(255,255,255,0)';
         link._unmarkTimer = setTimeout(function () {
