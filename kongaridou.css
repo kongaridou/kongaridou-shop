@@ -610,9 +610,11 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .tapestry-menu__body{
   background: var(--band-red);
-  background-image: var(--texture2);
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+  background-image: linear-gradient(var(--texture-fade), var(--texture-fade)), var(--texture2);
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: normal, multiply;
   padding: 20px 18px;
   max-height: 60vh;
   overflow-y: auto;
