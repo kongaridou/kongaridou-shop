@@ -379,8 +379,7 @@ function initTapestryMenu() {
 
 
 // ------------------------------------------------------------------
-// 10. タペストリーメニュー：今見ているセクションのハイライトと副題の出し入れ
-//     ・太字／下線／副題の見た目は、CSSに頼らずインラインスタイルで直接指定
+// タペストリーメニュー：今見ているセクションのハイライトと副題の出し入れ
 // ------------------------------------------------------------------
 function initTapestryScrollSpy() {
     var sections = document.querySelectorAll('.about-block[id]');
@@ -432,7 +431,6 @@ function initTapestryScrollSpy() {
         ul.style.paddingLeft = '12px';
         ul.style.borderLeft = '1px solid rgba(255,255,255,0.45)';
         ul.style.overflow = 'hidden';
-        // 最初は透明・高さ0にしておき、直後にふわっと表示させる
         ul.style.opacity = '0';
         ul.style.maxHeight = '0px';
         ul.style.transition = 'opacity 0.35s ease, max-height 0.35s ease';
@@ -455,7 +453,6 @@ function initTapestryScrollSpy() {
                 if (!sub && subMap[key]) {
                     var newSub = buildSubList(key);
                     itemEl.appendChild(newSub);
-                    // 1フレーム後に数値を変えることで、ふわっと伸びるアニメーションを発火させる
                     requestAnimationFrame(function () {
                         requestAnimationFrame(function () {
                             newSub.style.opacity = '1';
@@ -470,13 +467,40 @@ function initTapestryScrollSpy() {
         });
     }
 
+    // 現在「交差している」全セクションを覚えておき、
+    // その中から画面中央に一番近いものを毎回選び直す。
+    // （複数が同時に交差している時、後から処理された方が勝つ、という
+    //   曖昧な判定を無くすための仕組み）
+    var intersectingMap = {};
+
+    function pickClosestToCenter() {
+        var viewportCenter = window.innerHeight / 2;
+        var bestId = null;
+        var bestDistance = Infinity;
+
+        Object.keys(intersectingMap).forEach(function (id) {
+            var rect = intersectingMap[id];
+            var sectionCenter = rect.top + rect.height / 2;
+            var distance = Math.abs(sectionCenter - viewportCenter);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                bestId = id;
+            }
+        });
+
+        if (bestId) setActive(bestId);
+    }
+
     if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    setActive(entry.target.id);
+                    intersectingMap[entry.target.id] = entry.boundingClientRect;
+                } else {
+                    delete intersectingMap[entry.target.id];
                 }
             });
+            pickClosestToCenter();
         }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
 
         sections.forEach(function (sec) {
@@ -484,6 +508,7 @@ function initTapestryScrollSpy() {
         });
     }
 }
+
 
 
 // ------------------------------------------------------------------
