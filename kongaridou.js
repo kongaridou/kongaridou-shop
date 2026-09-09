@@ -391,17 +391,29 @@ function initTapestryScrollSpy() {
         itemMap[el.getAttribute('data-key')] = el;
     });
 
-    var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
+var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
     var links = (window.SITE_CONFIG && window.SITE_CONFIG.links) || {};
 
-    // カードのHTML文字列から <h3> の文字だけを取り出す
-    function extractH3Titles(arrayName) {
-        var htmlList = (window.SITE_CONFIG && window.SITE_CONFIG[arrayName]) || [];
-        return htmlList.map(function (html) {
-            var temp = document.createElement('div');
-            temp.innerHTML = html;
-            var h3 = temp.querySelector('h3');
-            return { label: h3 ? h3.textContent : '', link: '#' };
+    // subFromの指す先が「配列」か「1つのHTML文字列」かを見て、
+    // 配列なら各カードの<h3>を、文字列なら中の<h4>を全部拾って副題にする
+    function extractSubItems(sourceKey) {
+        var source = window.SITE_CONFIG && window.SITE_CONFIG[sourceKey];
+        if (!source) return [];
+
+        if (Array.isArray(source)) {
+            return source.map(function (html) {
+                var temp = document.createElement('div');
+                temp.innerHTML = html;
+                var h3 = temp.querySelector('h3');
+                return { label: h3 ? h3.textContent : '', link: '#' };
+            });
+        }
+
+        var temp = document.createElement('div');
+        temp.innerHTML = source;
+        var h4s = temp.querySelectorAll('h4');
+        return Array.prototype.map.call(h4s, function (h4) {
+            return { label: h4.textContent, link: '#' };
         });
     }
 
@@ -411,12 +423,12 @@ function initTapestryScrollSpy() {
         var key = href.indexOf('#') === 0 ? href.slice(1) : null;
         if (!key) return;
 
-        if (item.sub) {
-            subMap[key] = item.sub; // 手書きのsubがあればそちらを優先
-        } else if (item.subFrom) {
-            subMap[key] = extractH3Titles(item.subFrom); // 配列から自動取得
+        var items = item.sub || (item.subFrom ? extractSubItems(item.subFrom) : null);
+        if (items && items.length) {
+            subMap[key] = items;
         }
     });
+
 
     function markCurrent(link) {
         link.style.fontWeight = 'bold';
@@ -468,7 +480,7 @@ function initTapestryScrollSpy() {
 
             if (key === id) {
                 if (link) markCurrent(link);
-                if (!sub && subMap[key]) {
+                if (!sub && subMap[key] && subMap[key].length) {
                     var newSub = buildSubList(key);
                     itemEl.appendChild(newSub);
                     requestAnimationFrame(function () {
