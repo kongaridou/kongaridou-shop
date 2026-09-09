@@ -487,28 +487,29 @@ function markCurrent(link) {
     // 現在「交差している」全セクションを覚えておき、
     // その中から画面中央に一番近いものを毎回選び直す
     var ticking = false;
+    var currentActiveId = null;
 
     function updateActive() {
         var viewportCenter = window.innerHeight / 2;
         var bestId = null;
-        var bestDistance = Infinity;
 
+        // セクション自体の中心ではなく、「画面中央の高さに、今実際に
+        // 重なっているセクションはどれか」を直接調べる方式に変更。
+        // 背の高いセクション・低いセクションが混在していても正確に判定できる。
         sections.forEach(function (sec) {
             var rect = sec.getBoundingClientRect();
-            // 画面に少しでも重なっているセクションだけを候補にする
-            if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                var center = rect.top + rect.height / 2;
-                var distance = Math.abs(center - viewportCenter);
-                if (distance < bestDistance) {
-                    bestDistance = distance;
-                    bestId = sec.id;
-                }
+            if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
+                bestId = sec.id;
             }
         });
 
-        if (bestId) setActive(bestId);
+        if (bestId && bestId !== currentActiveId) {
+            currentActiveId = bestId;
+            setActive(bestId);
+        }
         ticking = false;
     }
+
 
     window.addEventListener('scroll', function () {
         if (!ticking) {
