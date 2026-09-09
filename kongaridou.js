@@ -346,18 +346,26 @@ function initTapestryScrollSpy() {
     });
 
     function markCurrent(link) {
-        // アニメーションさせず、即座に太字＋点線を表示
-        link.style.transition = 'none';
         link.style.fontWeight = 'bold';
-        link.style.borderBottom = '5px dotted #fff';
         link.style.paddingBottom = '3px';
+        link.style.borderBottom = '5px dotted rgba(255,255,255,0)';
+        link.style.transition = 'border-bottom-color 0.35s ease';
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                link.style.borderBottomColor = 'rgba(255,255,255,1)';
+            });
+        });
     }
 
     function unmarkCurrent(link) {
-        link.style.transition = 'none';
-        link.style.fontWeight = '';
-        link.style.borderBottom = '';
-        link.style.paddingBottom = '';
+        link.style.transition = 'border-bottom-color 0.35s ease';
+        link.style.borderBottomColor = 'rgba(255,255,255,0)';
+        setTimeout(function () {
+            link.style.fontWeight = '';
+            link.style.borderBottom = '';
+            link.style.paddingBottom = '';
+            link.style.transition = '';
+        }, 350);
     }
 
     function buildSubList(key) {
