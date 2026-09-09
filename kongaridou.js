@@ -286,8 +286,11 @@ function initTapestryMenu() {
 
     function resetPosition() {
         el.style.transition = '';
-        var targetLeft = window.innerWidth * 0.4 - el.offsetWidth / 2;
-        applyPosition(targetLeft, 100);
+        var contentWidth = 960; // サイト本体の幅
+        var gap = 20; // 本体との隙間
+        var contentLeftEdge = (window.innerWidth - contentWidth) / 2;
+        var targetLeft = contentLeftEdge - el.offsetWidth - gap;
+        applyPosition(targetLeft, 80);
         el.style.transform = 'none';
     }
 
@@ -469,43 +472,41 @@ function initTapestryScrollSpy() {
 
     // 現在「交差している」全セクションを覚えておき、
     // その中から画面中央に一番近いものを毎回選び直す
-    var intersectingMap = {};
+    var ticking = false;
 
-    function pickClosestToCenter() {
+    function updateActive() {
         var viewportCenter = window.innerHeight / 2;
         var bestId = null;
         var bestDistance = Infinity;
 
-        Object.keys(intersectingMap).forEach(function (id) {
-            var rect = intersectingMap[id];
-            var sectionCenter = rect.top + rect.height / 2;
-            var distance = Math.abs(sectionCenter - viewportCenter);
-            if (distance < bestDistance) {
-                bestDistance = distance;
-                bestId = id;
+        sections.forEach(function (sec) {
+            var rect = sec.getBoundingClientRect();
+            // 画面に少しでも重なっているセクションだけを候補にする
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                var center = rect.top + rect.height / 2;
+                var distance = Math.abs(center - viewportCenter);
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestId = sec.id;
+                }
             }
         });
 
         if (bestId) setActive(bestId);
+        ticking = false;
     }
 
-    if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    intersectingMap[entry.target.id] = entry.boundingClientRect;
-                } else {
-                    delete intersectingMap[entry.target.id];
-                }
-            });
-            pickClosestToCenter();
-        }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            window.requestAnimationFrame(updateActive);
+            ticking = true;
+        }
+    }, { passive: true });
 
-        sections.forEach(function (sec) {
-            io.observe(sec);
-        });
-    }
+    updateActive();
 }
+
+
 
 
 // ------------------------------------------------------------------
