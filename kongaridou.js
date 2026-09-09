@@ -1,8 +1,7 @@
 // ------------------------------------------------------------------
-// 1. ヘッダーの出現制御／フェードインセクションの出現制御
+// ヘッダーの出現制御／フェードインセクションの出現制御
 // ------------------------------------------------------------------
 $(function () {
-    // ヘッダーの出現制御
     var $header = $('.site-header');
     var revealThreshold = $(window).height() * 0.5;
 
@@ -16,7 +15,6 @@ $(function () {
     $(window).on('scroll', onScroll);
     onScroll();
 
-    // フェードインセクションの出現制御
     if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -35,10 +33,12 @@ $(function () {
             el.classList.add('is-visible');
         });
     }
-}); 
+});
 
 
+// ------------------------------------------------------------------
 // ページ内リンク(#で始まるa)をクリックした時、加減速しながらスクロールする
+// ------------------------------------------------------------------
 function smoothScrollTo(targetY, duration) {
     var startY = window.scrollY;
     var diff = targetY - startY;
@@ -69,11 +69,12 @@ function initSmoothAnchors() {
         if (!target) return;
 
         e.preventDefault();
-        var headerOffset = 100; // 固定ヘッダー分の余白
+        var headerOffset = 100;
         var targetY = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-        smoothScrollTo(targetY, 900); // 900ミリ秒かけて移動
+        smoothScrollTo(targetY, 900);
     });
 }
+
 
 // ------------------------------------------------------------------
 // 目次(about-toc)を SITE_CONFIG.menu から自動生成する
@@ -83,10 +84,8 @@ function renderAboutToc() {
     if (!list) return;
 
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
-    var links = (window.SITE_CONFIG && window.SITE_CONFIG.links) || {};
 
     function resolveLink(item) {
-        if (item.linkKey) return links[item.linkKey] || '#';
         return item.link || '#';
     }
 
@@ -94,17 +93,20 @@ function renderAboutToc() {
         return '<li><a href="' + resolveLink(item) + '">' + item.label + '</a></li>';
     }).join('');
 }
+
+
 // ------------------------------------------------------------------
-// 2. トップページ reveal セクションのクリックリンク
+// トップページ reveal セクションのクリックリンク
+// （ページをまたぐ移動なので aboutPageURL + #id をその場で組み立てる）
 // ------------------------------------------------------------------
 function initRevealLinks() {
     var sections = document.querySelectorAll('.n-reveal-section[data-link]');
+    var base = (window.SITE_CONFIG && window.SITE_CONFIG.aboutPageURL) || '';
     sections.forEach(function (sec) {
         var key = sec.getAttribute('data-link');
-        var url = window.SITE_CONFIG && window.SITE_CONFIG.links && window.SITE_CONFIG.links[key];
-        if (url) {
+        if (key) {
             sec.addEventListener('click', function () {
-                window.location.href = url;
+                window.location.href = base + '#' + key;
             });
         }
     });
@@ -112,19 +114,7 @@ function initRevealLinks() {
 
 
 // ------------------------------------------------------------------
-// 3. ABOUTページ 目次(about-toc)の外部リンク設定
-// ------------------------------------------------------------------
-function initTocLinks() {
-    document.querySelectorAll('.about-toc a[data-link]').forEach(function (a) {
-        var key = a.getAttribute('data-link');
-        var url = window.SITE_CONFIG && window.SITE_CONFIG.links && window.SITE_CONFIG.links[key];
-        if (url) a.href = url;
-    });
-}
-
-
-// ------------------------------------------------------------------
-// 4. 「背景は普通にスクロール、中身だけゆっくり遅れる」パラレックス
+// 「背景は普通にスクロール、中身だけゆっくり遅れる」パラレックス
 // ------------------------------------------------------------------
 function initSlowFollow(selector, speedFactor) {
     var els = document.querySelectorAll(selector);
@@ -171,14 +161,13 @@ function initSlowFollow(selector, speedFactor) {
 
 
 // ------------------------------------------------------------------
-// 5. NEWSカルーセル（Swiper.js／カバーフローエフェクト）
+// NEWSカルーセル（Swiper.js／カバーフローエフェクト）
 // ------------------------------------------------------------------
 function initNewsCarousel() {
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.news) || [];
     var wrapper = document.getElementById('newsSwiperWrapper');
     if (!wrapper || items.length === 0 || typeof Swiper === 'undefined') return;
 
-    // バナーが少なくても自然にループするよう、必要な分だけ仮想的に複製する
     var minSlides = 8;
     var loopItems = items.slice();
     while (loopItems.length < minSlides) {
@@ -215,7 +204,7 @@ function initNewsCarousel() {
 
 
 // ------------------------------------------------------------------
-// 6. グッズの種類・布の種類のカードを並べる
+// グッズの種類・布の種類のカードを並べる
 // ------------------------------------------------------------------
 function renderCardGrid(containerId, items) {
     var container = document.getElementById(containerId);
@@ -228,7 +217,7 @@ function renderCardGrid(containerId, items) {
 
 
 // ------------------------------------------------------------------
-// 7. カード内の画像を拡大表示（BASE標準のColorboxを使用）
+// カード内の画像を拡大表示（BASE標準のColorboxを使用）
 // ------------------------------------------------------------------
 function initAboutLightbox() {
     if (typeof $ === 'undefined' || !$.fn.colorbox) return;
@@ -237,7 +226,7 @@ function initAboutLightbox() {
 
 
 // ------------------------------------------------------------------
-// 8. ABOUTページ各セクション本文(SITE_CONFIG.sections)の描画
+// ABOUTページ各セクション本文(SITE_CONFIG.sections)の描画
 // ------------------------------------------------------------------
 function renderSections() {
     var sections = (window.SITE_CONFIG && window.SITE_CONFIG.sections) || {};
@@ -249,10 +238,10 @@ function renderSections() {
 
 
 // ------------------------------------------------------------------
-// 9. タペストリーメニュー本体
-//    ・SITE_CONFIG.menu から中身を描画
-//    ・ドラッグで移動（画面外には出せない）
-//    ・ウィンドウリサイズで画面外に出たら位置を戻す
+// タペストリーメニュー本体
+// ・SITE_CONFIG.menu から中身を描画
+// ・ドラッグで移動（画面外には出せない）
+// ・ウィンドウリサイズで画面外に出たら位置を戻す
 // ------------------------------------------------------------------
 function initTapestryMenu() {
     var el = document.getElementById('tapestryMenu');
@@ -260,10 +249,8 @@ function initTapestryMenu() {
     if (!el || !body) return;
 
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
-    var links = (window.SITE_CONFIG && window.SITE_CONFIG.links) || {};
 
     function resolveLink(item) {
-        if (item.linkKey) return links[item.linkKey] || '#';
         return item.link || '#';
     }
 
@@ -280,7 +267,6 @@ function initTapestryMenu() {
             '</div>';
     }).join('');
 
-    // ---- ドラッグ移動を画面内に収めるための位置計算 ----
     function clamp(left, top) {
         var w = el.offsetWidth;
         var h = el.offsetHeight;
@@ -300,13 +286,11 @@ function initTapestryMenu() {
 
     function resetPosition() {
         el.style.transition = '';
-        // 初期位置：画面中央よりやや左
         var targetLeft = window.innerWidth * 0.4 - el.offsetWidth / 2;
         applyPosition(targetLeft, 100);
         el.style.transform = 'none';
     }
 
-    // ---- ドラッグ操作 ----
     var isDragging = false, startX, startY, initialLeft, initialTop;
 
     function onDown(e) {
@@ -320,7 +304,7 @@ function initTapestryMenu() {
         initialTop = rect.top;
         el.style.transition = 'none';
         el.style.transform = 'none';
-        applyPosition(initialLeft, initialTop); // ワープ防止：現在位置をそのままleft/topに固定してから開始
+        applyPosition(initialLeft, initialTop);
         el.classList.add('is-dragging');
         document.addEventListener('mousemove', onMove);
         document.addEventListener('touchmove', onMove, { passive: false });
@@ -342,7 +326,7 @@ function initTapestryMenu() {
         isDragging = false;
         el.classList.remove('is-dragging');
         var rect = el.getBoundingClientRect();
-        applyPosition(rect.left, rect.top); // 離した瞬間にもう一度クランプをかけ直す
+        applyPosition(rect.left, rect.top);
         document.removeEventListener('mousemove', onMove);
         document.removeEventListener('touchmove', onMove);
         document.removeEventListener('mouseup', onUp);
@@ -352,7 +336,6 @@ function initTapestryMenu() {
     el.addEventListener('mousedown', onDown);
     el.addEventListener('touchstart', onDown, { passive: true });
 
-    // ---- リサイズで画面外に出たら戻す ----
     window.addEventListener('resize', function () {
         if (window.innerWidth <= 760) return;
         var rect = el.getBoundingClientRect();
@@ -365,10 +348,8 @@ function initTapestryMenu() {
         }
     });
 
-    // 初期位置を確定
     resetPosition();
 
-    // ---- スマホ：ハンバーガーで開閉 ----
     var toggle = document.getElementById('menuToggle');
     if (toggle) {
         toggle.addEventListener('click', function () {
@@ -391,44 +372,33 @@ function initTapestryScrollSpy() {
         itemMap[el.getAttribute('data-key')] = el;
     });
 
-var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
-    var links = (window.SITE_CONFIG && window.SITE_CONFIG.links) || {};
+    var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
 
-    // subFromの指す先が「配列」か「1つのHTML文字列」かを見て、
-    // 配列なら各カードの<h3>を、文字列なら中の<h4>を全部拾って副題にする
-    function extractSubItems(sourceKey) {
-        var source = window.SITE_CONFIG && window.SITE_CONFIG[sourceKey];
-        if (!source) return [];
+    // セクション内に実際に表示されている <h3>/<h4> にidを振り、
+    // そこへ本当にジャンプできるリンクとして副題を作る
+    function extractSubItems(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (!section) return [];
 
-        if (Array.isArray(source)) {
-            return source.map(function (html) {
-                var temp = document.createElement('div');
-                temp.innerHTML = html;
-                var h3 = temp.querySelector('h3');
-                return { label: h3 ? h3.textContent : '', link: '#' };
-            });
-        }
-
-        var temp = document.createElement('div');
-        temp.innerHTML = source;
-        var h4s = temp.querySelectorAll('h4');
-        return Array.prototype.map.call(h4s, function (h4) {
-            return { label: h4.textContent, link: '#' };
+        var headings = section.querySelectorAll('h3, h4');
+        return Array.prototype.map.call(headings, function (h, index) {
+            if (!h.id) {
+                h.id = sectionId + '-sub' + index;
+            }
+            return { label: h.textContent, link: '#' + h.id };
         });
     }
 
     var subMap = {};
     menuConfig.forEach(function (item) {
-        var href = item.linkKey ? (links[item.linkKey] || '') : (item.link || '');
-        var key = href.indexOf('#') === 0 ? href.slice(1) : null;
+        var key = (item.link && item.link.indexOf('#') === 0) ? item.link.slice(1) : null;
         if (!key) return;
 
-        var items = item.sub || (item.subFrom ? extractSubItems(item.subFrom) : null);
+        var items = item.sub || (item.autoSub ? extractSubItems(key) : null);
         if (items && items.length) {
             subMap[key] = items;
         }
     });
-
 
     function markCurrent(link) {
         link.style.fontWeight = 'bold';
@@ -498,9 +468,7 @@ var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
     }
 
     // 現在「交差している」全セクションを覚えておき、
-    // その中から画面中央に一番近いものを毎回選び直す。
-    // （複数が同時に交差している時、後から処理された方が勝つ、という
-    //   曖昧な判定を無くすための仕組み）
+    // その中から画面中央に一番近いものを毎回選び直す
     var intersectingMap = {};
 
     function pickClosestToCenter() {
@@ -540,19 +508,18 @@ var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
 }
 
 
-
 // ------------------------------------------------------------------
-// 11. ページ読み込み完了後に、上記の初期化関数をすべて実行
+// ページ読み込み完了後に、上記の初期化関数をすべて実行
 // ------------------------------------------------------------------
 $(document).ready(function () {
     initNewsCarousel();
+    renderSections();
+    renderCardGrid('goodsTypesGrid', window.SITE_CONFIG.goodsTypes);
+    renderCardGrid('fabricTypesGrid', window.SITE_CONFIG.fabricTypes);
     renderAboutToc();
     initRevealLinks();
     initSmoothAnchors();
     initSlowFollow('.n-reveal-follow', 0.68);
-    renderSections();
-    renderCardGrid('goodsTypesGrid', window.SITE_CONFIG.goodsTypes);
-    renderCardGrid('fabricTypesGrid', window.SITE_CONFIG.fabricTypes);
     initAboutLightbox();
     initTapestryMenu();
     initTapestryScrollSpy();
