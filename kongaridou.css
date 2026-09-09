@@ -460,8 +460,10 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   padding: 6px 16px;
   border-radius: 8px;
   font-family: "Shippori Mincho", serif;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   margin: 0;
+  width: 100%;
+  margin-bottom: 12px;
 }
 .about-card h4, .about-block__body h4{
   border: 2px solid var(--band-navy);
