@@ -367,7 +367,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .about-block.bg-white{
   background: var(--white);
-  background-image: linear-gradient(var(--texture-fade), var(--texture-fade)), var(--texture3);
+  background-image: linear-gradient(var(--texture-fade), var(--texture-fade)), var(--texture1);
   background-size: cover;
   background-repeat: no-repeat;
   background-blend-mode: normal, multiply;
