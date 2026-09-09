@@ -64,6 +64,9 @@ body.shop #mainHeader.site-header nav ul li{
 body.shop #mainHeader.site-header nav ul li a{
   padding: 6px 0;
 }
+body.shop #mainHeader.site-header nav ul li a:hover{
+  color: var(--white) !important;
+}
 @media (max-width: 600px){
   body.shop #mainHeader.site-header #shopHeader{
     justify-content: center;
@@ -502,11 +505,15 @@ body.shop #mainHeader.site-header nav ul li a{
 ================================================================== */
 .about-link-list{
   list-style: none;
-  margin: 0;
+  margin: 16px 0 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
+}
+.about-link-list li{
+  margin: 0;
 }
 .about-link-list a{
   display: inline-block;
@@ -521,6 +528,19 @@ body.shop #mainHeader.site-header nav ul li a{
   background: var(--band-red);
   color: var(--white);
 }
+.about-block.bg-linen .about-link-list a{
+  background: var(--white);
+}
+.about-card__banner{
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 720 / 240;
+  object-fit: cover;
+  margin: 16px auto;
+  cursor: zoom-in;
+}
+
 
 
 /* ==================================================================
