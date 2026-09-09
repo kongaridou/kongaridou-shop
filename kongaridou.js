@@ -346,12 +346,15 @@ function initTapestryScrollSpy() {
     });
 
     function markCurrent(link) {
+        // アニメーションさせず、即座に太字＋点線を表示
+        link.style.transition = 'none';
         link.style.fontWeight = 'bold';
         link.style.borderBottom = '5px dotted #fff';
         link.style.paddingBottom = '3px';
     }
 
     function unmarkCurrent(link) {
+        link.style.transition = 'none';
         link.style.fontWeight = '';
         link.style.borderBottom = '';
         link.style.paddingBottom = '';
@@ -364,8 +367,11 @@ function initTapestryScrollSpy() {
         ul.style.margin = '6px 0 0';
         ul.style.paddingLeft = '12px';
         ul.style.borderLeft = '1px solid rgba(255,255,255,0.45)';
-        ul.style.opacity = '1';       // ← これが無いと副題が透明のまま出ない
-        ul.style.maxHeight = '300px'; // ← これが無いと副題の高さが0のまま出ない
+        ul.style.overflow = 'hidden';
+        // 最初は透明・高さ0にしておき、直後にふわっと表示させる
+        ul.style.opacity = '0';
+        ul.style.maxHeight = '0px';
+        ul.style.transition = 'opacity 0.35s ease, max-height 0.35s ease';
         ul.innerHTML = subMap[key].map(function (s) {
             return '<li style="margin-bottom:6px;">' +
                 '<a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;">' +
@@ -383,7 +389,15 @@ function initTapestryScrollSpy() {
             if (key === id) {
                 if (link) markCurrent(link);
                 if (!sub && subMap[key]) {
-                    itemEl.appendChild(buildSubList(key));
+                    var newSub = buildSubList(key);
+                    itemEl.appendChild(newSub);
+                    // 1フレーム後に数値を変えることで、ふわっと伸びるアニメーションを発火させる
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            newSub.style.opacity = '1';
+                            newSub.style.maxHeight = '300px';
+                        });
+                    });
                 }
             } else {
                 if (link) unmarkCurrent(link);
