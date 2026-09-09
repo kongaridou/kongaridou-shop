@@ -393,11 +393,29 @@ function initTapestryScrollSpy() {
 
     var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
     var links = (window.SITE_CONFIG && window.SITE_CONFIG.links) || {};
+
+    // カードのHTML文字列から <h3> の文字だけを取り出す
+    function extractH3Titles(arrayName) {
+        var htmlList = (window.SITE_CONFIG && window.SITE_CONFIG[arrayName]) || [];
+        return htmlList.map(function (html) {
+            var temp = document.createElement('div');
+            temp.innerHTML = html;
+            var h3 = temp.querySelector('h3');
+            return { label: h3 ? h3.textContent : '', link: '#' };
+        });
+    }
+
     var subMap = {};
     menuConfig.forEach(function (item) {
         var href = item.linkKey ? (links[item.linkKey] || '') : (item.link || '');
         var key = href.indexOf('#') === 0 ? href.slice(1) : null;
-        if (key && item.sub) subMap[key] = item.sub;
+        if (!key) return;
+
+        if (item.sub) {
+            subMap[key] = item.sub; // 手書きのsubがあればそちらを優先
+        } else if (item.subFrom) {
+            subMap[key] = extractH3Titles(item.subFrom); // 配列から自動取得
+        }
     });
 
     function markCurrent(link) {
