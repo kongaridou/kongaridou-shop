@@ -378,6 +378,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   font-size: 0.95rem;
   line-height: 1.9;
   color: var(--ink);
+  text-align: center;
 }
 
 
@@ -409,7 +410,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .about-card__content{
   flex: 2;
   min-width: 0;
-  text-align: left;
+  text-align: center;
 }
 .about-card__media{
   flex: 2;
@@ -451,6 +452,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 /* ==================================================================
    7. 見出しスタイル（about-card / about-block__body 共通）
 ================================================================== */
+
 .about-card h3, .about-block__body h3{
   background: var(--band-navy);
   color: var(--white);
@@ -459,7 +461,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   border-radius: 8px;
   font-family: "Shippori Mincho", serif;
   font-size: 1.05rem;
-  margin: 0 0 12px;
+  margin: 0;
 }
 .about-card h4, .about-block__body h4{
   border: 2px solid var(--band-navy);
@@ -470,7 +472,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   border-radius: 4px;
   font-family: "Zen Kaku Gothic New", sans-serif;
   font-size: 0.95rem;
-  margin: 0 0 10px;
+  margin: 0;
 }
 .about-card h5, .about-block__body h5{
   color: var(--band-red);
@@ -479,27 +481,36 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   font-size: 0.9rem;
   border-left: 6px double var(--band-red);
   padding-left: 12px;
-  margin: 0 0 8px;
+  margin: 0;
 }
 .about-card h6, .about-block__body h6{
   font-weight: bold;
   font-family: "Zen Kaku Gothic New", sans-serif;
   font-size: 0.88rem;
   color: var(--ink);
-  margin: 0 0 6px;
+  margin: 0;
 }
 .about-card p, .about-block__body p{
   font-family: "Zen Kaku Gothic New", sans-serif;
   font-size: 0.9rem;
   line-height: 1.8;
   color: var(--ink);
-  margin: 0 0 10px;
-  text-align: left;
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .about-card a, .about-block__body a{
   color: var(--band-red);
   text-decoration: underline;
 }
+
+/* 要素同士の間隔を、個別のmarginではなくここで一括管理する */
+.about-card__content > * + *,
+.about-block__body > * + * {
+  margin-top: 20px;
+}
+
 
 
 /* ==================================================================
