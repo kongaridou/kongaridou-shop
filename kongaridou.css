@@ -466,7 +466,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   font-family: "Shippori Mincho", serif;
   font-size: 1.2rem;
   margin: 0;
-  width: 100%;
+  width: 92%;
   margin-bottom: 12px;
 }
 .about-card h4, .about-block__body h4{
@@ -503,7 +503,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--ink);
   margin: 0;
   max-width: 600px;
-  margin-left: 6px;
+  margin-left: 14px;
   margin-right: auto;
   margin-bottom: 12px;
 }
