@@ -1,7 +1,12 @@
 .main{
    display:none;
 }
-
+h1, h2, h3{
+  font-family: var(--font-title);
+}
+.font-accent{
+  font-family: var(--font-accent) !important;
+}
 /* ==================================================================
    1. ヘッダー（出現アニメーション・レイアウト）
 ================================================================== */
@@ -563,7 +568,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   border-radius: 8px;
   color: var(--ink);
   text-decoration: none;
-  font-family: var(--font-body);
+  font-family: var(--font-sub);
 }
 .about-link-list a:hover{
   background: var(--band-red);
