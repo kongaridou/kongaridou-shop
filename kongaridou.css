@@ -824,6 +824,17 @@ body:has(.blogDetail){
   color: var(--band-red);
   text-decoration: underline;
 }
+.about-size-list{
+  margin: 0 0 10px;
+  padding: 0;
+}
+.about-size-list li{
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
 
 
 
