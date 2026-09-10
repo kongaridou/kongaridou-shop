@@ -380,8 +380,7 @@ function initTapestryScrollSpy() {
 
     var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
 
-    // セクション内に実際に表示されている <h3>/<h4> にidを振り、
-    // そこへ本当にジャンプできるリンクとして副題を作る
+
     function extractSubItems(sectionId) {
         var section = document.getElementById(sectionId);
         if (!section) return [];
@@ -391,7 +390,7 @@ function initTapestryScrollSpy() {
             if (!h.id) {
                 h.id = sectionId + '-sub' + index;
             }
-            return { label: h.textContent, link: '#' + h.id };
+            return { label: h.textContent, link: '#' + h.id, level: h.tagName.toLowerCase() };
         });
     }
 
@@ -445,15 +444,20 @@ function markCurrent(link) {
         ul.className = 'tapestry-menu__sub';
         ul.style.listStyle = 'none';
         ul.style.margin = '6px 0 0';
-        ul.style.paddingLeft = '12px';
-        ul.style.borderLeft = '1px solid rgba(255,255,255,0.45)';
+        ul.style.paddingLeft = '0';
         ul.style.overflow = 'hidden';
         ul.style.opacity = '0';
         ul.style.maxHeight = '0px';
         ul.style.transition = 'opacity 0.35s ease, max-height 0.35s ease';
         ul.innerHTML = subMap[key].map(function (s) {
-            return '<li style="margin-bottom:6px;">' +
-                '<a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;font-family:var(--font-sub);">' +
+            var isH2 = s.level === 'h2';
+            var liStyle = isH2
+                ? 'margin-bottom:6px; padding-left:0;'
+                : 'margin-bottom:6px; padding-left:12px; border-left:1px solid rgba(255,255,255,0.45);';
+            var linkStyle = 'color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;font-family:var(--font-sub);'
+                + (isH2 ? 'font-weight:bold;' : '');
+            return '<li style="' + liStyle + '">' +
+                '<a href="' + (s.link || '#') + '" style="' + linkStyle + '">' +
                 s.label + '</a></li>';
         }).join('');
         return ul;
