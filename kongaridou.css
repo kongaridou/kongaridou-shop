@@ -865,7 +865,8 @@ color: var(--ink);
   display: block;
   border: 2px solid var(--white);
   color: var(--white);
-  padding: 2px 240px;
+  padding: 2px 48px;
+  width:480px;
   font-family: var(--font-title);
   font-size: 1.5rem;
 }
