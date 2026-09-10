@@ -453,7 +453,7 @@ function markCurrent(link) {
         ul.style.transition = 'opacity 0.35s ease, max-height 0.35s ease';
         ul.innerHTML = subMap[key].map(function (s) {
             return '<li style="margin-bottom:6px;">' +
-                '<a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;">' +
+                '<a href="' + (s.link || '#') + '" style="color:rgba(255,255,255,0.85);font-size:0.75rem;text-decoration:none;font-family:var(--font-sub);">' +
                 s.label + '</a></li>';
         }).join('');
         return ul;
