@@ -524,7 +524,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--ink);
   max-width: 600px;
   margin: 0 auto 12px auto;
-  margin-left:14px;
 }
 .about-card p {
   font-family: var(--font-body);
