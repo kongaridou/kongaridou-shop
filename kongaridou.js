@@ -262,14 +262,14 @@ function initTapestryMenu() {
         return href.indexOf('#') === 0 ? href.slice(1) : null;
     }
 
-
-    var headingHtml = '<div class="tapestry-menu__heading"><h2><span>MENU</span></h2></div>';
-    body.innerHTML = headingHtml + items.map(function (item) {
+initTapestryScrollSpy が出し入れする
+    body.innerHTML = items.map(function (item) {
         var key = keyOf(item);
         return '<div class="tapestry-menu__item"' + (key ? ' data-key="' + key + '"' : '') + '>' +
             '<a href="' + resolveLink(item) + '">' + item.label + '</a>' +
             '</div>';
     }).join('');
+
 
     function clamp(left, top) {
         var w = el.offsetWidth;
@@ -387,7 +387,7 @@ function initTapestryScrollSpy() {
         var section = document.getElementById(sectionId);
         if (!section) return [];
 
-        var headings = section.querySelectorAll('h3, h4');
+        var headings = section.querySelectorAll('h2, h3, h4');
         return Array.prototype.map.call(headings, function (h, index) {
             if (!h.id) {
                 h.id = sectionId + '-sub' + index;
