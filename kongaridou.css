@@ -619,15 +619,24 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   background: var(--linen-deep);
 }
 .tapestry-menu__body{
+  position: relative;
   background: var(--band-red);
-  background-image: linear-gradient(var(--texture-fade), var(--texture-fade)), var(--texture2);
-  background-size: 100% 100%, 50%;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-  background-blend-mode: normal, multiply;
   padding: 20px 18px;
   max-height: 60vh;
   overflow-y: auto;
+}
+.tapestry-menu__body::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--texture2);
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .tapestry-menu__item{
