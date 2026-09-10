@@ -832,7 +832,7 @@ body:has(.blogDetail){
   padding: 0;
 }
 .about-size-list li{
-  background: var(--linen-deep);
+  background: var(--tag-terracotta);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 0.85rem;
