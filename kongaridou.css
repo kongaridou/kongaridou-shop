@@ -741,3 +741,24 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
 }
 
+.about-image-row{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 20px 0;
+}
+.about-image-row a{
+  display: block;
+}
+.about-image-row img{
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.about-image-row img:hover{
+  transform: scale(1.03);
+}
