@@ -776,7 +776,6 @@ body:has(.blogDetail){
   box-sizing: border-box;
 }
 
-
 .blog_title h2{
   background: var(--band-navy);
   color: var(--white);
@@ -785,6 +784,11 @@ body:has(.blogDetail){
   border-radius: 8px;
   font-family: var(--font-title);
 }
+.blog_title h2 a{
+  color: var(--white);
+  text-decoration: none;
+}
+
 
 
 .blog_body img{
@@ -804,12 +808,13 @@ body:has(.blogDetail){
   border: 2px solid var(--band-navy);
   color: var(--band-navy);
   font-weight: bold;
-  display: inline-block;
+  display: block;
+  width: fit-content;
   padding: 4px 14px;
   border-radius: 4px;
   font-family: var(--font-sub);
   font-size: 0.95rem;
-  margin: 0;
+  margin: 12px 0;
 }
 
 .blog_body a{
