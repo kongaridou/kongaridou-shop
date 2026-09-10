@@ -517,14 +517,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--ink);
   margin: 0;
 }
-.about-card p {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  line-height: 1.8;
-  color: var(--ink);
-  max-width: 600px;
-  margin: 0 0 12px 14px;
-}
 .about-block__body p {
   font-family: var(--font-body);
   font-size: 0.9rem;
@@ -533,6 +525,14 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   max-width: 600px;
   margin: 0 auto 12px auto;
   margin-left:14px;
+}
+.about-card p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--ink);
+  max-width: 600px;
+  margin: 0 0 12px 14px;
 }
 .about-card a, .about-block__body a{
   color: var(--band-red);
@@ -638,7 +638,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .tapestry-menu__item > a{
   color: var(--white);
-  font-family: var(--font-sub);
+  font-family: var(--font-title);
   font-size: 0.88rem;
   text-decoration: none;
   display: inline-block;
