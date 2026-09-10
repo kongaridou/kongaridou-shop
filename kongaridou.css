@@ -599,6 +599,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 /* ==================================================================
    9. タペストリー風メニュー
 ================================================================== */
+
 .tapestry-menu{
   position: fixed;
   top: 100px;
@@ -610,6 +611,23 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   box-shadow: 0 10px 28px rgba(0,0,0,0.22);
   animation: n-drape-drop 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   user-select: none;
+  background: var(--band-red);
+}
+.tapestry-menu::before{
+  content: "";
+  position: absolute;
+  top: 26px;
+  bottom: 26px;
+  left: 0;
+  right: 0;
+  background-image: var(--texture2);
+  background-size: 50vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
 }
 .tapestry-menu.is-dragging{
   cursor: grabbing;
@@ -622,24 +640,13 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .tapestry-menu__body{
   position: relative;
-  background: var(--band-red);
+  background: transparent;
   padding: 20px 18px;
   max-height: 60vh;
   overflow-y: auto;
+  z-index: 1;
 }
-.tapestry-menu__body::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--texture2);
-  background-size: 50vw;
-  background-position: center;
-  background-repeat: no-repeat;
-  mix-blend-mode: multiply;
-  opacity: 0.45;
-  pointer-events: none;
-  z-index: 0;
-}
+ 
 
 .tapestry-menu__item{
   margin-bottom: 8px;
