@@ -576,10 +576,12 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .about-block.bg-linen .about-link-list a{
   background: var(--white);
+  box-shadow:2px 2px 2px #CCC;
 }
 .about-block.bg-linen .about-link-list a:hover{
   background: var(--band-red);
   color: var(--white);
+  box-shadow:2px 2px 2px #CCC;
 }
 
 .about-card__banner{
