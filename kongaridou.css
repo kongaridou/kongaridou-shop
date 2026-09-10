@@ -798,10 +798,13 @@ body:has(.blogDetail){
 
 
 .blog_body b{
+  display: inline-block;
+  color: var(--band-red);
   font-weight: bold;
   font-family: var(--font-body);
-  font-size: 0.88rem;
-  color: var(--ink);
+  font-size: 0.9rem;
+  border-left: 6px double var(--band-red);
+  padding-left: 12px;
 }
 
 .blog_body h3{
