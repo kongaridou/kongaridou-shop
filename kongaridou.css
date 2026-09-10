@@ -507,7 +507,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   font-family: var(--font-body);
   font-size: 0.9rem;
   border-left: 6px double var(--band-red);
-  padding-left: 12px;
+  padding-left: 8px;
   margin: 0;
 }
 .about-card h6, .about-block__body h6{
