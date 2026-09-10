@@ -262,7 +262,6 @@ function initTapestryMenu() {
         return href.indexOf('#') === 0 ? href.slice(1) : null;
     }
 
-initTapestryScrollSpy が出し入れする
     body.innerHTML = items.map(function (item) {
         var key = keyOf(item);
         return '<div class="tapestry-menu__item"' + (key ? ' data-key="' + key + '"' : '') + '>' +
