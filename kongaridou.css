@@ -834,16 +834,14 @@ body:has(.blogDetail){
   padding: 0;
 }
 .about-size-list li{
-  background: var(--tag-terracotta);
-  color: var(--ink);
+color: var(--ink);
   font-family: var(--font-body);
   font-size: 0.85rem;
   padding: 2px 12px 3px;
   border-radius: 5px;
   margin: 0;
-    margin-left: 0px;
   margin-left: 16px;
-  box-shadow: 2px 2px 2px #CCC;
+  border: solid 3px var(--tag-green);
 }
 
 
