@@ -284,7 +284,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   width: 100%; height: auto; display: block;
 }
 .n-reveal-heading{
-  font-family: "Shippori Mincho", serif;
+  font-family: var(--font-title);
   font-size: clamp(1.7rem, 3.4vw, 2.4rem);
   display: inline-block;
   padding: 10px 24px;
@@ -301,7 +301,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--white);
 }
 .n-reveal-text{
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   line-height: 1.9;
   color: var(--ink);
@@ -350,7 +350,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   gap: 12px 28px;
 }
 .about-toc a{
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--ink);
   text-decoration: none;
@@ -385,7 +385,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   min-height: 1080px;
 }
 .about-block__heading{
-  font-family: "Shippori Mincho", serif;
+  font-family: var(--font-title);
   font-size: clamp(1.5rem, 3vw, 2rem);
   color: var(--ink);
   display: inline-block;
@@ -394,7 +394,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   border-bottom: 2px solid var(--band-red);
 }
 .about-block__body{
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   line-height: 1.9;
   color: var(--ink);
@@ -479,7 +479,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   display: inline-block;
   padding: 6px 16px;
   border-radius: 8px;
-  font-family: "Shippori Mincho", serif;
+  font-family: var(--font-title);
   font-size: 1.2rem;
   margin: 0;
   width: 92%;
@@ -492,14 +492,14 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   display: inline-block;
   padding: 8px 14px 4px;
   border-radius: 4px;
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-sub);
   font-size: 0.95rem;
   margin: 0;
 }
 .about-card h5, .about-block__body h5{
   color: var(--band-red);
   font-weight: bold;
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   border-left: 6px double var(--band-red);
   padding-left: 12px;
@@ -507,13 +507,13 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .about-card h6, .about-block__body h6{
   font-weight: bold;
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   color: var(--ink);
   margin: 0;
 }
 .about-card p {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   line-height: 1.8;
   color: var(--ink);
@@ -521,7 +521,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   margin: 0 0 12px 14px;
 }
 .about-block__body p {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   line-height: 1.8;
   color: var(--ink);
@@ -563,7 +563,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   border-radius: 8px;
   color: var(--ink);
   text-decoration: none;
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
 }
 .about-link-list a:hover{
   background: var(--band-red);
@@ -632,7 +632,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .tapestry-menu__item > a{
   color: var(--white);
-  font-family: "Shippori Mincho", serif;
+  font-family: var(--font-sub);
   font-size: 0.88rem;
   text-decoration: none;
   display: inline-block;
@@ -668,7 +668,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .tapestry-menu__sub a{
   color: rgba(255,255,255,0.85);
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.6rem;
   text-decoration: none;
 }
