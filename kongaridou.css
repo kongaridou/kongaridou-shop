@@ -850,16 +850,12 @@ body:has(.blogDetail){
   margin: 0 auto 32px;
 }
 .about-section-heading h2{
-  display: inline-block;
-  background: var(--band-red);
-  padding: 8px;
-  margin: 0;
-}
-.about-section-heading h2 span{
-  display: block;
-  border: 2px solid var(--white);
+  background: var(--band-navy);
   color: var(--white);
-  padding: 12px 40px;
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 8px;
   font-family: var(--font-title);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  margin: 0;
 }
