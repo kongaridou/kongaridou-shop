@@ -762,3 +762,60 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .about-image-row img:hover{
   transform: scale(1.03);
 }
+
+
+
+body:has(.blogDetail){
+  background: var(--linen-pale);
+}
+.blogDetail{
+  background: var(--white);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  box-sizing: border-box;
+}
+
+
+.blog_title h2{
+  background: var(--band-navy);
+  color: var(--white);
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-family: var(--font-title);
+}
+
+
+.blog_body img{
+  display: block;
+  margin: 20px auto;
+}
+
+
+.blog_body b{
+  font-weight: bold;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.blog_body h3{
+  border: 2px solid var(--band-navy);
+  color: var(--band-navy);
+  font-weight: bold;
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-family: var(--font-sub);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.blog_body a{
+  color: var(--band-red);
+  text-decoration: underline;
+}
+
+
+
