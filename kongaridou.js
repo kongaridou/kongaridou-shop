@@ -262,8 +262,7 @@ function initTapestryMenu() {
         return href.indexOf('#') === 0 ? href.slice(1) : null;
     }
 
-    // 副題はここでは出さない。今見ているセクションの分だけ initTapestryScrollSpy が出し入れする
-initTapestryScrollSpy が出し入れする
+
     var headingHtml = '<div class="tapestry-menu__heading"><h2><span>MENU</span></h2></div>';
     body.innerHTML = headingHtml + items.map(function (item) {
         var key = keyOf(item);
