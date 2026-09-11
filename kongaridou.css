@@ -149,8 +149,14 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   .n-band{ animation: none; }
 }
 @media (max-width: 760px){
-  .n-maindrapes{ height: auto; flex-direction: column; }
-  .n-band{ height: 220px; }
+  .n-maindrapes{ height: 70vh; min-height: 400px; }
+  .n-band--1, .n-band--2, .n-band--3{
+    display: none;
+  }
+  .n-band--4{
+    width: 100%;
+    animation-delay: 0s;
+  }
 }
 
 /* テクスチャ乗算（現在は全バンド共通でtexture1を使用） */
@@ -219,8 +225,8 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 @media (max-width: 700px){
   .n-news-swiper .swiper-slide{
-    width: 86vw;
-    height: calc(86vw * 280 / 600);
+    width: 72vw;
+    height: calc(72vw * 280 / 600);
   }
 }
 
@@ -251,12 +257,12 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   transform: translateY(-50%) scale(1.08);
 }
 :root{
-  --news-banner-half: 300px; /* バナー幅600pxの半分 */
-  --news-btn-offset: 46px;   /* バナーとボタンの間隔＋ボタン半径ぶん */
+  --news-banner-half: 300px; 
+  --news-btn-offset: 64px; 
 }
 @media (max-width: 700px){
   :root{
-    --news-banner-half: 43vw; /* モバイル時のバナー幅86vwの半分 */
+    --news-banner-half: 36vw;
   }
 }
 .n-news__prev{
