@@ -225,6 +225,23 @@ function initNewsCarousel() {
         }
     });
 
+    // 画像の読み込みが全部終わってから、正しいサイズで並べ直す
+    var bannerImages = wrapper.querySelectorAll('img');
+    var loadedCount = 0;
+    if (bannerImages.length > 0) {
+        bannerImages.forEach(function (img) {
+            if (img.complete) {
+                loadedCount++;
+                if (loadedCount === bannerImages.length) swiper.update();
+            } else {
+                img.addEventListener('load', function () {
+                    loadedCount++;
+                    if (loadedCount === bannerImages.length) swiper.update();
+                });
+            }
+        });
+    }
+
     // 〇は「水増しした枚数」ではなく「本当の件数」ぶんだけ作る
     var pagEl = document.querySelector('.n-news__pagination');
     if (pagEl) {
