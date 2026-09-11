@@ -897,4 +897,19 @@ color: var(--ink);
   font-family: var(--font-title);
   font-size: 1.5rem;
 }
+.n-news__pagination{
+  position: relative;
+  margin-top: 24px;
+  text-align: center;
+}
+.n-news__pagination .swiper-pagination-bullet{
+  background: var(--band-navy);
+  opacity: 0.4;
+  width: 9px;
+  height: 9px;
+}
+.n-news__pagination .swiper-pagination-bullet-active{
+  background: var(--band-red);
+  opacity: 1;
+}
 
