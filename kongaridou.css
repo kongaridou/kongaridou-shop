@@ -95,12 +95,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   body.shop #mainHeader.site-header nav ul{
     display: none;
   }
-  .menu-toggle{
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-50%);
-    right:30px;
-  }
   #baseMenu{
     right:60px;
   }
@@ -762,7 +756,10 @@ body.shop #mainHeader.site-header nav ul li a:hover{
     display: none;
   }
   .menu-toggle{
-    display: block;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    right: 30px !important;
   }
 }
 
