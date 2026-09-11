@@ -897,9 +897,15 @@ color: var(--ink);
   font-family: var(--font-title);
   font-size: 1.5rem;
 }
-.n-news__pagination{
-  position: relative;
+.n-news__controls{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   margin-top: 24px;
+}
+.n-news__pagination{
+  position: static;
   text-align: center;
 }
 .n-news__pagination .swiper-pagination-bullet{
@@ -911,5 +917,33 @@ color: var(--ink);
 .n-news__pagination .swiper-pagination-bullet-active{
   background: var(--band-red);
   opacity: 1;
+}
+
+/* スマホ用矢印は、PCでは非表示 */
+.n-news__prev--mobile, .n-news__next--mobile{
+  display: none;
+}
+
+@media (max-width: 700px){
+  /* PC用矢印（画像の横に浮く方）はスマホでは非表示 */
+  .n-news__prev--desktop, .n-news__next--desktop{
+    display: none;
+  }
+  /* スマホ用矢印：〇の隣に、普段の半分くらいのサイズで表示 */
+  .n-news__prev--mobile, .n-news__next--mobile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: static;
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    transform: none;
+    cursor: pointer;
+  }
 }
 
