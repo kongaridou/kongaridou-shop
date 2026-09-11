@@ -940,9 +940,6 @@ color: var(--ink);
   .n-news__prev--desktop, .n-news__next--desktop{
     display: none;
   }
-  .tapestry-menu--index{
-    display: none !important;
-  }
   .about-section-heading h2{
     display: block;
     width: calc(100% - 24px);
@@ -954,5 +951,10 @@ color: var(--ink);
     padding: 12px 16px;
     font-size: 1.1rem;
     box-sizing: border-box;
+  }
+}
+@media (min-width: 761px) {
+  .tapestry-menu--index {
+    display: none !important;
   }
 }
