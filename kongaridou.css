@@ -187,9 +187,11 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   background-blend-mode: multiply;
 }
 
+.n-news-swiper{
+  position: relative;
+}
 .n-news-swiper .swiper-slide{
   position: relative;
-  width: 600px;
   height: 280px;
   overflow: hidden;
   background: var(--linen-pale);
