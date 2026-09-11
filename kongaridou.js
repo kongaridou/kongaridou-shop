@@ -165,12 +165,20 @@ function initSlowFollow(selector, speedFactor) {
 // ------------------------------------------------------------------
 // NEWSカルーセル（Swiper.js／カバーフローエフェクト）
 // ------------------------------------------------------------------
+
 function initNewsCarousel() {
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.news) || [];
     var wrapper = document.getElementById('newsSwiperWrapper');
     if (!wrapper || items.length === 0 || typeof Swiper === 'undefined') return;
 
-    wrapper.innerHTML = items.map(function (item) {
+    var uniqueCount = items.length; // 本当の件数（〇の数はこちら基準）
+    var minSlides = 5; // 見た目上、最低これだけの枚数を確保する
+    var paddedItems = items.slice();
+    while (paddedItems.length < minSlides) {
+        paddedItems = paddedItems.concat(items);
+    }
+
+    wrapper.innerHTML = paddedItems.map(function (item) {
         var img = '<img src="' + item.image + '" alt="">';
         var inner = item.link
             ? '<a class="n-news__link" href="' + item.link + '">' + img + '</a>'
@@ -184,7 +192,6 @@ function initNewsCarousel() {
         centeredSlides: true,
         slidesPerView: 'auto',
         loop: true,
-        loopAdditionalSlides: 8,
         coverflowEffect: {
             rotate: 0,
             stretch: 0,
@@ -201,6 +208,8 @@ function initNewsCarousel() {
             disableOnInteraction: false
         }
     });
+
+    // 〇は「水増しした枚数」ではなく「本当の件数」ぶんだけ作る
     var pagEl = document.querySelector('.n-news__pagination');
     if (pagEl) {
         pagEl.innerHTML = items.map(function (item, i) {
@@ -210,7 +219,8 @@ function initNewsCarousel() {
         var dots = pagEl.querySelectorAll('.n-news__dot');
 
         function setActiveDot() {
-            var current = swiper.realIndex;
+            // 水増しした分の番号を、本当の件数の範囲に丸める
+            var current = swiper.realIndex % uniqueCount;
             dots.forEach(function (dot, i) {
                 dot.classList.toggle('is-active', i === current);
             });
@@ -227,6 +237,8 @@ function initNewsCarousel() {
         setActiveDot();
     }
 }
+
+
 
 
 
