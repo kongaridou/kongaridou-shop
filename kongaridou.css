@@ -908,13 +908,17 @@ color: var(--ink);
   position: static;
   text-align: center;
 }
-.n-news__pagination .swiper-pagination-bullet{
-  background: var(--band-navy);
-  opacity: 0.4;
+.n-news__dot{
+  display: inline-block;
   width: 9px;
   height: 9px;
+  border-radius: 50%;
+  background: var(--band-navy);
+  opacity: 0.4;
+  margin: 0 4px;
+  cursor: pointer;
 }
-.n-news__pagination .swiper-pagination-bullet-active{
+.n-news__dot.is-active{
   background: var(--band-red);
   opacity: 1;
 }
