@@ -115,12 +115,18 @@ function initRevealLinks() {
 // ------------------------------------------------------------------
 // 「背景は普通にスクロール、中身だけゆっくり遅れる」パラレックス
 // ------------------------------------------------------------------
+
 function initSlowFollow(selector, speedFactor) {
     var els = document.querySelectorAll(selector);
     if (els.length === 0) return;
 
     var baseTops = [];
     var ticking = false;
+    var mobileBreakpoint = 760;
+
+    function isMobile() {
+        return window.innerWidth <= mobileBreakpoint;
+    }
 
     function measure() {
         baseTops = Array.prototype.map.call(els, function (el) {
@@ -133,6 +139,13 @@ function initSlowFollow(selector, speedFactor) {
     }
 
     function update() {
+        if (isMobile()) {
+            els.forEach(function (el) {
+                el.style.transform = 'none';
+            });
+            ticking = false;
+            return;
+        }
         var scrollY = window.scrollY;
         els.forEach(function (el, i) {
             var naturalTop = baseTops[i] - scrollY;
@@ -157,6 +170,9 @@ function initSlowFollow(selector, speedFactor) {
         update();
     });
 }
+
+
+
 
 
 
