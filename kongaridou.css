@@ -750,12 +750,12 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   .tapestry-menu{
     display: none;
     position: fixed;
-    top: auto;
+    top: auto !important;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 0 !important;
+    right: 0 !important;
     width: 100%;
-    transform: none;
+    transform: none !important;
     animation: none;
     box-shadow: 0 -6px 20px rgba(0,0,0,0.2);
     background: rgba(166, 59, 46, 0.85);
@@ -775,10 +775,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   }
   .menu-toggle{
     display: block !important;
-    top: 50% !important;
-    left: 50% !important;
-    right: auto !important;
-    bottom: auto !important;
+    top:30px;
     transform: translate(-50%, -50%) !important;
   }
 }
@@ -942,7 +939,7 @@ color: var(--ink);
   .n-news__prev--desktop, .n-news__next--desktop{
     display: none;
   }
-  body#shopTopPage .tapestry-menu{
-    display: none;
+  .tapestry-menu--index{
+    display: none !important;
   }
 }
