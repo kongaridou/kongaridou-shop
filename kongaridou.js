@@ -187,8 +187,8 @@ function initNewsCarousel() {
     var wrapper = document.getElementById('newsSwiperWrapper');
     if (!wrapper || items.length === 0 || typeof Swiper === 'undefined') return;
 
-    var uniqueCount = items.length; // 本当の件数（〇の数はこちら基準）
-    var minSlides = 5; // 見た目上、最低これだけの枚数を確保する
+    var uniqueCount = items.length;
+    var minSlides = 8; 
     var paddedItems = items.slice();
     while (paddedItems.length < minSlides) {
         paddedItems = paddedItems.concat(items);
