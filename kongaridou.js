@@ -241,6 +241,7 @@ function initNewsCarousel() {
             }
         });
     }
+    setTimeout(function () { swiper.update(); }, 400);
 
     // 〇は「水増しした枚数」ではなく「本当の件数」ぶんだけ作る
     var pagEl = document.querySelector('.n-news__pagination');
