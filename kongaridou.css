@@ -928,13 +928,10 @@ color: var(--ink);
 }
 
 /* スマホ用矢印は、PCでは非表示 */
-@media (max-width: 700px){
+@media (max-width: 760px){
   .n-news__prev--desktop, .n-news__next--desktop{
     display: none;
   }
-}
-
-@media (min-width: 761px){
   body#shopTopPage .tapestry-menu{
     display: none;
   }
