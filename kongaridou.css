@@ -770,7 +770,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   }
   .tapestry-menu__body{
     text-align: center;
-    max-height: 45vh;
+    max-height: 50vh;
   }
   .menu-toggle{
     display: block !important;
