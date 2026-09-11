@@ -759,12 +759,20 @@ body.shop #mainHeader.site-header nav ul li a:hover{
     transform: none;
     animation: none;
     box-shadow: 0 -6px 20px rgba(0,0,0,0.2);
+    background: rgba(166, 59, 46, 0.85);
+    border-radius: 16px 16px 0 0;
   }
   .tapestry-menu.is-open{
     display: block;
   }
   .tapestry-menu__cap{
     display: none;
+  }
+  .tapestry-menu::before{
+    display: none;
+  }
+  .tapestry-menu__body{
+    text-align: center;
   }
   .menu-toggle{
     display: block !important;
