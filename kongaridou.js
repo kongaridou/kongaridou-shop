@@ -195,7 +195,7 @@ function initNewsCarousel() {
         coverflowEffect: {
             rotate: 0,
             stretch: 0,
-            depth: 150,
+            depth: 90,
             modifier: 1,
             slideShadows: false
         },
