@@ -307,11 +307,19 @@ function initTapestryMenu() {
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
 
     function resolveLink(item) {
-        return item.link || '#';
+        var link = item.link || '#';
+        if (link.indexOf('#') === 0) {
+            var isAboutPage = document.querySelector('.about-block[id]') !== null;
+            if (!isAboutPage) {
+                var base = (window.SITE_CONFIG && window.SITE_CONFIG.aboutPageURL) || '';
+                return base + link;
+            }
+        }
+        return link;
     }
 
     function keyOf(item) {
-        var href = resolveLink(item);
+        var href = item.link || '#';
         return href.indexOf('#') === 0 ? href.slice(1) : null;
     }
 
