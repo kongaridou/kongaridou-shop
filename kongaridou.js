@@ -206,7 +206,7 @@ function initNewsCarousel() {
         effect: 'coverflow',
         grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 'auto',
+        slidesPerView: 3,
         loop: true,
         coverflowEffect: {
             rotate: 0,
@@ -222,26 +222,13 @@ function initNewsCarousel() {
         autoplay: {
             delay: 3500,
             disableOnInteraction: false
+        },
+        breakpoints: {
+            900: {
+                slidesPerView: 5
+            }
         }
     });
-
-    // 画像の読み込みが全部終わってから、正しいサイズで並べ直す
-    var bannerImages = wrapper.querySelectorAll('img');
-    var loadedCount = 0;
-    if (bannerImages.length > 0) {
-        bannerImages.forEach(function (img) {
-            if (img.complete) {
-                loadedCount++;
-                if (loadedCount === bannerImages.length) swiper.update();
-            } else {
-                img.addEventListener('load', function () {
-                    loadedCount++;
-                    if (loadedCount === bannerImages.length) swiper.update();
-                });
-            }
-        });
-    }
-    setTimeout(function () { swiper.update(); }, 400);
 
     // 〇は「水増しした枚数」ではなく「本当の件数」ぶんだけ作る
     var pagEl = document.querySelector('.n-news__pagination');
@@ -271,6 +258,7 @@ function initNewsCarousel() {
         setActiveDot();
     }
 }
+
 
 
 
@@ -320,7 +308,13 @@ function renderSections() {
 function initTapestryMenu() {
     var el = document.getElementById('tapestryMenu');
     var body = document.getElementById('tapestryMenuBody');
-    if (!el || !body) return;
+    var toggle = document.getElementById('menuToggle');
+
+    if (!el || !body) {
+        // このページにはタペストリーが無いので、赤いボタン自体を隠す
+        if (toggle) toggle.style.display = 'none';
+        return;
+    }
 
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
 
@@ -425,9 +419,11 @@ function initTapestryMenu() {
         }
     });
 
-    resetPosition();
+    // スマホでは位置をJSで計算しない（CSSの「下からせり出す」指定に任せる）
+    if (window.innerWidth > 760) {
+        resetPosition();
+    }
 
-    var toggle = document.getElementById('menuToggle');
     if (toggle) {
         toggle.addEventListener('click', function () {
             el.classList.toggle('is-open');
