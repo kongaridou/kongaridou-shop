@@ -93,13 +93,6 @@ function renderAboutToc() {
         return '<li><a href="' + resolveLink(item) + '">' + item.label + '</a></li>';
     }).join('');
 }
-function moveBaseMenuIntoHeader() {
-    var baseMenu = document.getElementById('baseMenu');
-    var nav = document.querySelector('#mainHeader nav');
-    if (baseMenu && nav) {
-        nav.appendChild(baseMenu);
-    }
-}
 
 // ------------------------------------------------------------------
 // トップページ reveal セクションのクリックリンク
@@ -538,7 +531,6 @@ function markCurrent(link) {
 // ページ読み込み完了後に、上記の初期化関数をすべて実行
 // ------------------------------------------------------------------
 $(document).ready(function () {    
-    moveBaseMenuIntoHeader();
     initNewsCarousel();
     renderSections();
     renderCardGrid('goodsTypesGrid', window.SITE_CONFIG.goodsTypes);
