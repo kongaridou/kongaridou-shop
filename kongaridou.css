@@ -92,8 +92,12 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   body.shop #mainHeader.site-header nav{
     margin-right: 40px;
   }
-  body.shop #mainHeader.site-header nav ul{
+    body.shop #mainHeader.site-header nav ul li:not(:first-child){
     display: none;
+  }
+  body.shop #mainHeader.site-header nav ul li:first-child{
+    display: block;
+    width: auto;
   }
   #baseMenu{
     right:60px;
@@ -741,6 +745,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   font-size: 1.15rem;
   line-height: 36px;
   cursor: pointer;
+  z-index: 3000;
 }
 @media (max-width: 760px){
   .tapestry-menu{
