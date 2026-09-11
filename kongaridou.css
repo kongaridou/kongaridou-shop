@@ -978,11 +978,16 @@ color: var(--ink);
   padding: 0;
   text-align: left;
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+}
+.n-category-tree__large{
+  flex: 0 1 200px;
 }
 .n-category-tree__large > h4{
-  border: 2px solid var(--band-navy);
+  border: 2px solid var(--band-red);
   color: var(--band-navy);
   font-weight: bold;
   display: inline-block;
