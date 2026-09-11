@@ -767,9 +767,10 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   .menu-toggle{
     display: block !important;
     top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
     bottom: auto !important;
-    transform: translateY(-50%) !important;
-    right: 30px !important;
+    transform: translate(-50%, -50%) !important;
   }
 }
 
