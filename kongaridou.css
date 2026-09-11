@@ -60,7 +60,7 @@ body.shop #mainHeader.site-header nav{
   margin-right: 12%;
 }
 #baseMenu{
-  top: 18px;
+  top: 8px;
   right: 4%;
 }
 
@@ -93,18 +93,20 @@ body.shop #mainHeader.site-header nav ul li a:hover{
     margin-right: 40px;
   }
   body.shop #mainHeader.site-header nav ul{
-    justify-content: flex-start;
-  }
-  body.shop #mainHeader.site-header nav ul li:not(:first-child){
     display: none;
-  }
-  body.shop #mainHeader.site-header nav ul li:first-child{
-    width: auto;
   }
   .menu-toggle{
     top: 50%;
     bottom: auto;
     transform: translateY(-50%);
+    right:28px;
+  }
+  #baseMenu{
+    right:60px;
+  }
+  #baseMenu > ul > li a{
+    padding: 8px 10px;
+    font-size: 13px;
   }
 }
 
