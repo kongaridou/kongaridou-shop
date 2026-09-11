@@ -200,6 +200,14 @@ function initNewsCarousel() {
         navigation: {
             nextEl: '.n-news__next',
             prevEl: '.n-news__prev'
+        },
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: false
+        },
+        pagination: {
+            el: '.n-news__pagination',
+            clickable: true
         }
     });
 }
