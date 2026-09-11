@@ -170,13 +170,7 @@ function initNewsCarousel() {
     var wrapper = document.getElementById('newsSwiperWrapper');
     if (!wrapper || items.length === 0 || typeof Swiper === 'undefined') return;
 
-    var minSlides = 8;
-    var loopItems = items.slice();
-    while (loopItems.length < minSlides) {
-        loopItems = loopItems.concat(items);
-    }
-
-    wrapper.innerHTML = loopItems.map(function (item) {
+    wrapper.innerHTML = items.map(function (item) {
         var img = '<img src="' + item.image + '" alt="">';
         var inner = item.link
             ? '<a class="n-news__link" href="' + item.link + '">' + img + '</a>'
@@ -190,6 +184,7 @@ function initNewsCarousel() {
         centeredSlides: true,
         slidesPerView: 'auto',
         loop: true,
+        loopAdditionalSlides: 4,
         coverflowEffect: {
             rotate: 0,
             stretch: 0,
@@ -211,6 +206,7 @@ function initNewsCarousel() {
         }
     });
 }
+
 
 
 // ------------------------------------------------------------------
