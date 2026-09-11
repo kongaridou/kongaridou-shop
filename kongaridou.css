@@ -192,6 +192,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 .n-news-swiper .swiper-slide{
   position: relative;
+  width: 600px;
   height: 280px;
   overflow: hidden;
   background: var(--linen-pale);
