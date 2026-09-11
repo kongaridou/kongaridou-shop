@@ -750,8 +750,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   .tapestry-menu{
     display: none;
     position: fixed;
-    top: auto !important;
-    bottom: 12px;
     left: 12px !important;
     right: 12px !important;
     width: auto;
