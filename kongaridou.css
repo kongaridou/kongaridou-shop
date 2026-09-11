@@ -92,12 +92,8 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   body.shop #mainHeader.site-header nav{
     margin-right: 40px;
   }
-    body.shop #mainHeader.site-header nav ul li:not(:first-child){
+  body.shop #mainHeader.site-header nav ul{
     display: none;
-  }
-  body.shop #mainHeader.site-header nav ul li:first-child{
-    display: block;
-    width: auto;
   }
   #baseMenu{
     right:60px;
@@ -260,20 +256,11 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   background: #ffffff;
   transform: translateY(-50%) scale(1.08);
 }
-:root{
-  --news-banner-half: 300px; 
-  --news-btn-offset: 64px; 
-}
-@media (max-width: 700px){
-  :root{
-    --news-banner-half: 36vw;
-  }
-}
 .n-news__prev{
-  left: calc(50% - var(--news-banner-half) - var(--news-btn-offset));
+  left: 12px;
 }
 .n-news__next{
-  right: calc(50% - var(--news-banner-half) - var(--news-btn-offset));
+  right: 12px;
 }
 
 
