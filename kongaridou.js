@@ -206,7 +206,7 @@ function initNewsCarousel() {
         effect: 'coverflow',
         grabCursor: true,
         centeredSlides: true,
-        slidesPerView: 3,
+        slidesPerView: 'auto',
         loop: true,
         coverflowEffect: {
             rotate: 0,
@@ -222,11 +222,6 @@ function initNewsCarousel() {
         autoplay: {
             delay: 3500,
             disableOnInteraction: false
-        },
-        breakpoints: {
-            900: {
-                slidesPerView: 5
-            }
         }
     });
 
@@ -240,7 +235,6 @@ function initNewsCarousel() {
         var dots = pagEl.querySelectorAll('.n-news__dot');
 
         function setActiveDot() {
-            // 水増しした分の番号を、本当の件数の範囲に丸める
             var current = swiper.realIndex % uniqueCount;
             dots.forEach(function (dot, i) {
                 dot.classList.toggle('is-active', i === current);
@@ -258,12 +252,6 @@ function initNewsCarousel() {
         setActiveDot();
     }
 }
-
-
-
-
-
-
 
 // ------------------------------------------------------------------
 // グッズの種類・布の種類のカードを並べる
