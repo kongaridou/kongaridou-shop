@@ -522,11 +522,11 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   color: var(--band-navy);
   font-weight: bold;
   display: inline-block;
-  padding: 8px 14px 4px;
+  padding: 2px 14px;
   border-radius: 4px;
   font-family: var(--font-sub);
   font-size: 0.95rem;
-  margin: 0;
+  margin: 10px 0;
 }
 .about-card h5, .about-block__body h5{
   color: var(--band-red);
