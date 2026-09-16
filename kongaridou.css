@@ -1025,3 +1025,12 @@ color: var(--ink);
   text-decoration: underline;
 }
 
+.about-card__price{
+  display: block;
+  text-align: right;
+  font-weight: bold;
+  font-family: var(--font-title);
+  color: var(--ink);
+  font-size: 1rem;
+  margin: 0;
+}
