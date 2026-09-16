@@ -1033,4 +1033,5 @@ color: var(--ink);
   color: var(--ink);
   font-size: 1rem;
   margin: 0;
+  margin-right: 12px;
 }
