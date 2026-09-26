@@ -1035,3 +1035,21 @@ color: var(--ink);
   margin: 0;
   margin-right: 12px;
 }
+
+/* is-pending クラスを .about-card__row に付けるだけで、
+   見出しがグレーになり「現在準備中」の文字が付き、
+   購入・テンプレートのリンクが無効化される */
+.about-card__row.is-pending h3{
+  background: #999;
+}
+.about-card__row.is-pending h3::after{
+  content: "（現在準備中）";
+  font-size: 0.75em;
+  font-weight: normal;
+  margin-left: 8px;
+}
+.about-card__row.is-pending ~ .about-link-list a{
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
