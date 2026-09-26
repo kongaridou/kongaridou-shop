@@ -1053,3 +1053,8 @@ color: var(--ink);
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.about-section-heading p{
+  margin: 0 auto !important;
+  text-align: center;
+}
