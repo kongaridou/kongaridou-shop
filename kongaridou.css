@@ -1063,7 +1063,7 @@ color: var(--ink);
 }
 .n-logo-reveal{
   position: absolute;
-  top: 36%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
@@ -1102,7 +1102,7 @@ color: var(--ink);
 .n-logo-random{
   position: absolute;
   left: 50%;
-  bottom: 60%;
+  bottom: 48%;
   margin-bottom: 4%;
   width: 30%;
   display: flex;
