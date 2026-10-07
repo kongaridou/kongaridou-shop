@@ -1109,7 +1109,7 @@ color: var(--ink);
   justify-content: center;
   opacity: 0;
   animation: n-logo-random-drop 0.8s ease forwards;
-  animation-delay: 3.8s;
+  animation-delay: 3.2s;
   pointer-events: none;
 }
 .n-logo-random__img{
