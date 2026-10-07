@@ -1066,16 +1066,21 @@ color: var(--ink);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 800px;
-  max-width: 90vw;
+  width: 80%;
+  max-width: 1100px;
   aspect-ratio: 800 / 400;
   pointer-events: none;
   z-index: 10;
 }
+/* 5枚とも同じキャンバスサイズで、各パーツが正しい位置に
+   描かれた画像なので、全パーツを同じ位置・同じ大きさで
+   重ねるだけでよい（個別の left/top/width 調整は不要） */
 .n-logo-reveal__piece{
   position: absolute;
-  width: auto;
-  height: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   opacity: 0;
   transform: translateY(-16px);
   animation: n-logo-drop 0.8s ease forwards;
@@ -1087,33 +1092,8 @@ color: var(--ink);
   }
 }
 
-/* 位置は目視での仮配置です。反映後にズレていたら、この
-   left / top / width（%指定）だけを調整してください */
-.n-logo-reveal__piece--1{ /* 紺（マーク） */
-  left: 2.5%;  top: 7.5%;  width: 41%;
-  animation-delay: 1.3s;
-}
-.n-logo-reveal__piece--2{ /* が */
-  left: 38.75%; top: 36.25%; width: 19.4%;
-  animation-delay: 1.75s;
-}
-.n-logo-reveal__piece--3{ /* り */
-  left: 58.1%; top: 28.75%; width: 14.4%;
-  animation-delay: 1.9s;
-}
-.n-logo-reveal__piece--4{ /* 堂（印） */
-  left: 70.6%; top: 17.5%; width: 25.6%;
-  animation-delay: 2.2s;
-}
-.n-logo-reveal__piece--5{ /* Kongaridou 英字 */
-  left: 36.25%; top: 77.5%; width: 31.25%;
-  animation-delay: 2.65s;
-}
-
-/* スマホでは帯が紺1枚だけの仕様なので、ロゴ演出は一旦非表示
-   （必要になったら別途スマホ用の配置を調整します） */
-@media (max-width: 760px){
-  .n-logo-reveal{
-    display: none;
-  }
-}
+.n-logo-reveal__piece--1{ animation-delay: 1.3s; }  /* 紺 */
+.n-logo-reveal__piece--2{ animation-delay: 1.75s; } /* が */
+.n-logo-reveal__piece--3{ animation-delay: 1.9s; }  /* り */
+.n-logo-reveal__piece--4{ animation-delay: 2.2s; }  /* 堂 */
+.n-logo-reveal__piece--5{ animation-delay: 2.65s; } /* 英字 */
