@@ -1072,9 +1072,7 @@ color: var(--ink);
   pointer-events: none;
   z-index: 10;
 }
-/* 5枚とも同じキャンバスサイズで、各パーツが正しい位置に
-   描かれた画像なので、全パーツを同じ位置・同じ大きさで
-   重ねるだけでよい（個別の left/top/width 調整は不要） */
+
 .n-logo-reveal__piece{
   position: absolute;
   inset: 0;
