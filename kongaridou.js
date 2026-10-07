@@ -589,15 +589,7 @@ function markCurrent(link) {
 }
 
 function initLogoRandomImage(){
-  var images = [
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d3736c2ad/01.png",
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d37c46975/02.png",
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d38387539/03.png",
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d3970810f/04.png",
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d39e76223/05.png",
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d3a8d4ee7/06.png",
-    "https://basefile.akamaized.net/kongaridou-base-shop/6ac5d3b024484/07.png"
-  ];
+  var images = (window.SITE_CONFIG && window.SITE_CONFIG.logoRandomImages) || [];
   var img = document.getElementById('logoRandomImg');
   if(!img || images.length === 0) return;
   var idx = Math.floor(Math.random() * images.length);
