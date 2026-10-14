@@ -862,12 +862,16 @@ body:has(.blogDetail){
   border-radius: 4px;
   font-family: var(--font-sub);
   font-size: 0.95rem;
-  margin: 12px 0;
+  margin: 12px;
 }
 
 .blog_body a{
   color: var(--band-red);
   text-decoration: underline;
+}
+
+.blog_body b{
+  margin: 2px 0;
 }
 .about-size-list{
   display: flex;
