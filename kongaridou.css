@@ -850,6 +850,7 @@ body:has(.blogDetail){
   font-size: 0.9rem;
   border-left: 6px double var(--band-red);
   padding-left: 12px;
+  margin: 2px 0 6px;
 }
 
 .blog_body h3{
@@ -870,9 +871,6 @@ body:has(.blogDetail){
   text-decoration: underline;
 }
 
-.blog_body b{
-  margin: 2px 0;
-}
 .about-size-list{
   display: flex;
   flex-wrap: wrap;
