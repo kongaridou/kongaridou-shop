@@ -1133,3 +1133,64 @@ color: var(--ink);
     filter: brightness(0) invert(1);
   }
 }
+/* ==================================================================
+   ブログ記事：ページ内検索（【検索】と書いた記事で表示）
+================================================================== */
+.kd-search{
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  margin: 0 -8px 20px;
+  padding: 10px 8px 6px;
+  background: var(--white);
+  border-bottom: 2px solid var(--band-red);
+  transition: top 0.5s ease;
+}
+.kd-search__inner{
+  position: relative;
+}
+.kd-search__input{
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 44px 0 14px;
+  border: 2px solid var(--band-navy);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px; /* 16px未満だと、スマホで入力時に画面が拡大される */
+}
+.kd-search__input:focus{
+  outline: none;
+  border-color: var(--band-red);
+}
+.kd-search__clear{
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--band-navy);
+  font-size: 1.2rem;
+  line-height: 32px;
+  cursor: pointer;
+}
+.kd-search__clear[hidden]{
+  display: none;
+}
+.kd-search__count{
+  min-height: 1.4em;
+  margin: 4px 2px 0;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+.kd-qa-hidden{
+  display: none !important;
+}
