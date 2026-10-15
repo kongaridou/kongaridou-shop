@@ -596,7 +596,155 @@ function initLogoRandomImage(){
   img.src = images[idx];
 }
 
+// ------------------------------------------------------------------
+// ブログ記事：ページ内検索
+// ・本文に「【検索】」と書いた行があるときだけ動きます
+// ・その行を検索欄に置き換えます（【検索】のあとに書いた文字は、入力欄の説明文になります）
+// ・太字の質問から、次の太字の質問の手前までを「1組」として、入力した言葉で絞り込みます
+// ------------------------------------------------------------------
+function initBlogSearch() {
+    var MARK = '【検索】';
+    var bodies = document.querySelectorAll('.blog_body');
+    if (bodies.length === 0) return;
 
+    // 全角・半角、大文字・小文字、カタカナ・ひらがなの違いを無視して比べる
+    function norm(s) {
+        return (s || '').normalize('NFKC').toLowerCase().replace(/\s+/g, '')
+            .replace(/[\u30a1-\u30f6]/g, function (c) {
+                return String.fromCharCode(c.charCodeAt(0) - 0x60);
+            });
+    }
+
+    var BLOCK = /^(P|DIV|H[1-6]|UL|OL|HR|TABLE|BLOCKQUOTE|FIGURE|IMG)$/;
+
+    function skipBlank(node, dir) {
+        var n = node[dir];
+        while (n && n.nodeType === 3 && !n.nodeValue.trim()) n = n[dir];
+        return n;
+    }
+    function isLineEdge(n) {
+        return !n || n.nodeName === 'BR' || (n.nodeType === 1 && BLOCK.test(n.nodeName));
+    }
+
+    // 「質問の行」かどうか（行まるごとが太字・見出しのもの）
+    function isQuestion(n) {
+        if (n.nodeType !== 1) return false;
+        var text = n.textContent.replace(/\s+/g, '');
+        if (!text) return false;
+        if (/^(B|STRONG)$/.test(n.nodeName)) {
+            return isLineEdge(skipBlank(n, 'previousSibling')) && isLineEdge(skipBlank(n, 'nextSibling'));
+        }
+        if (/^H[2-6]$/.test(n.nodeName)) return true;
+        if (/^(P|DIV|SPAN)$/.test(n.nodeName)) {
+            var b = n.querySelector('b, strong, h2, h3, h4, h5, h6');
+            return !!b && b.textContent.replace(/\s+/g, '') === text;
+        }
+        return false;
+    }
+
+    function findMarker(body) {
+        var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null);
+        var n;
+        while ((n = walker.nextNode())) {
+            if (n.nodeValue.indexOf(MARK) !== -1) return n;
+        }
+        return null;
+    }
+
+    Array.prototype.forEach.call(bodies, function (body) {
+        var textNode = findMarker(body);
+        if (!textNode) return;
+
+        var value = textNode.nodeValue;
+        var label = value.slice(value.indexOf(MARK) + MARK.length).trim();
+
+        // 【検索】の「行」を決める（短いp・divなら、その要素ごと。そうでなければ文字だけ）
+        var line = textNode;
+        while (line.parentNode && line.parentNode !== body &&
+               line.parentNode.textContent.replace(/\s/g, '').length <= 80) {
+            line = line.parentNode;
+        }
+        var container = line.parentNode;
+
+        // 検索欄をつくる
+        var box = document.createElement('div');
+        box.className = 'kd-search';
+        box.innerHTML =
+            '<div class="kd-search__inner">' +
+              '<input type="text" class="kd-search__input" inputmode="search" enterkeyhint="search" ' +
+                     'autocomplete="off" aria-label="このページ内を検索">' +
+              '<button type="button" class="kd-search__clear" aria-label="入力を消す" hidden>×</button>' +
+            '</div>' +
+            '<p class="kd-search__count" aria-live="polite"></p>';
+        var input = box.querySelector('.kd-search__input');
+        var clear = box.querySelector('.kd-search__clear');
+        var count = box.querySelector('.kd-search__count');
+        input.placeholder = label || '気になる言葉を入力してください';
+
+        // 置き換え（直後の<br>も消す）
+        var after = line.nextSibling;
+        container.insertBefore(box, line);
+        if (after && after.nodeName === 'BR') container.removeChild(after);
+        container.removeChild(line);
+
+        // 質問ごとの「1組」をつくる
+        var nodes = Array.prototype.slice.call(container.childNodes, Array.prototype.indexOf.call(container.childNodes, box) + 1);
+        var groups = [];
+        var current = null;
+        nodes.forEach(function (n) {
+            if (isQuestion(n)) {
+                current = document.createElement('div');
+                current.className = 'kd-qa-item';
+                container.insertBefore(current, n);
+                groups.push(current);
+            }
+            if (current) current.appendChild(n);
+        });
+        if (groups.length === 0) return;
+
+        var texts = groups.map(function (g) { return norm(g.textContent); });
+
+        function apply() {
+            var terms = input.value.normalize('NFKC').split(/\s+/).map(norm).filter(Boolean);
+            var shown = 0;
+            groups.forEach(function (g, i) {
+                var ok = terms.every(function (t) { return texts[i].indexOf(t) !== -1; });
+                g.classList.toggle('kd-qa-hidden', !ok);
+                if (ok) shown++;
+            });
+            clear.hidden = input.value === '';
+            if (terms.length === 0) {
+                count.textContent = '';
+            } else if (shown === 0) {
+                count.textContent = '見つかりませんでした。別の言葉でお試しください。';
+            } else {
+                count.textContent = shown + '件見つかりました';
+            }
+        }
+
+        input.addEventListener('input', apply);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') input.blur();
+        });
+        clear.addEventListener('click', function () {
+            input.value = '';
+            apply();
+            input.focus();
+        });
+
+        // 固定ヘッダーが出ているときは、その下にくっつける
+        var header = document.querySelector('.site-header');
+        function placeBox() {
+            var h = (header && header.classList.contains('is-visible')) ? header.offsetHeight : 0;
+            box.style.top = h + 'px';
+        }
+        if (header && window.MutationObserver) {
+            new MutationObserver(placeBox).observe(header, { attributes: true, attributeFilter: ['class'] });
+        }
+        window.addEventListener('resize', placeBox);
+        placeBox();
+    });
+}
 
 
 // ------------------------------------------------------------------
@@ -604,6 +752,7 @@ function initLogoRandomImage(){
 // ------------------------------------------------------------------
 $(document).ready(function () {    
     initLogoRandomImage();
+    initBlogSearch();
     initNewsCarousel();
     renderSections();
     renderCardGrid('goodsTypesGrid', window.SITE_CONFIG.goodsTypes);
