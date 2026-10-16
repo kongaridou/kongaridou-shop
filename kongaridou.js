@@ -616,6 +616,14 @@ function initBlogSearch() {
     }
 
     var BLOCK = /^(P|DIV|H[1-6]|UL|OL|HR|TABLE|BLOCKQUOTE|FIGURE|IMG)$/;
+    function isWrapper(el) {
+        if (el.nodeType !== 1 || !/^(DIV|SECTION|ARTICLE)$/.test(el.nodeName)) return false;
+        if (/kd-/.test(el.className || '')) return false;
+        for (var c = el.firstElementChild; c; c = c.nextElementSibling) {
+            if (/^(DIV|P|H[1-6]|UL|OL|BLOCKQUOTE|TABLE|FIGURE)$/.test(c.nodeName)) return true;
+        }
+        return false;
+    }
 
     function skipBlank(node, dir) {
         var n = node[dir];
