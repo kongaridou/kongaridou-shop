@@ -691,8 +691,9 @@ function initBlogSearch() {
         var nodes = Array.prototype.slice.call(container.childNodes, Array.prototype.indexOf.call(container.childNodes, box) + 1);
         var groups = [];
         var current = null;
-        nodes.forEach(function (n) {
-            if (isQuestion(n)) {
+        var flags = nodes.map(isQuestion);
+        nodes.forEach(function (n, i) {
+            if (flags[i]) {
                 current = document.createElement('div');
                 current.className = 'kd-qa-item';
                 container.insertBefore(current, n);
