@@ -746,12 +746,72 @@ function initBlogSearch() {
     });
 }
 
+// ------------------------------------------------------------------
+// ブログ記事：《言葉》を、自動でリンクにする
+// ------------------------------------------------------------------
+function initBlogAutoLinks() {
+    var links = (window.SITE_CONFIG && window.SITE_CONFIG.autoLinks) || {};
+    var bodies = document.querySelectorAll('.blog_body');
+    if (bodies.length === 0) return;
+
+    var PATTERN = /《([^《》|｜]+?)(?:[|｜]([^《》]+?))?》/g;
+    var SKIP = /^(A|SCRIPT|STYLE|TEXTAREA|BUTTON|INPUT)$/;
+
+    function resolve(key) {
+        key = key.trim();
+        return Object.prototype.hasOwnProperty.call(links, key) ? links[key] : null;
+    }
+
+    Array.prototype.forEach.call(bodies, function (body) {
+        // 先に対象の文字を集めてから書き換える（歩きながら書き換えないため）
+        var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
+            acceptNode: function (n) {
+                if (n.nodeValue.indexOf('《') === -1) return NodeFilter.FILTER_REJECT;
+                for (var p = n.parentNode; p && p !== body; p = p.parentNode) {
+                    if (SKIP.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+                }
+                return NodeFilter.FILTER_ACCEPT;
+            }
+        });
+        var targets = [];
+        var n;
+        while ((n = walker.nextNode())) targets.push(n);
+
+        targets.forEach(function (node) {
+            var text = node.nodeValue;
+            var frag = document.createDocumentFragment();
+            var last = 0;
+            var changed = false;
+            var m;
+            PATTERN.lastIndex = 0;
+            while ((m = PATTERN.exec(text))) {
+                // 《表示する文字|登録名》 のときは、右側が登録名
+                var label = m[1].trim();
+                var key = m[2] ? m[2] : m[1];
+                var url = resolve(key);
+                if (!url) continue;
+                frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+                var a = document.createElement('a');
+                a.href = url;
+                a.textContent = label;
+                frag.appendChild(a);
+                last = m.index + m[0].length;
+                changed = true;
+            }
+            if (!changed) return;
+            frag.appendChild(document.createTextNode(text.slice(last)));
+            node.parentNode.replaceChild(frag, node);
+        });
+    });
+}
+
 
 // ------------------------------------------------------------------
 // ページ読み込み完了後に、上記の初期化関数をすべて実行
 // ------------------------------------------------------------------
 $(document).ready(function () {    
     initLogoRandomImage();
+    initBlogAutoLinks();
     initBlogSearch();
     initNewsCarousel();
     renderSections();
