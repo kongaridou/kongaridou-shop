@@ -598,12 +598,10 @@ function initLogoRandomImage(){
 
 // ------------------------------------------------------------------
 // ブログ記事：ページ内検索
-// ・本文に「【検索】」と書いた行があるときだけ動きます
-// ・その行を検索欄に置き換えます（【検索】のあとに書いた文字は、入力欄の説明文になります）
-// ・太字の質問から、次の太字の質問の手前までを「1組」として、入力した言葉で絞り込みます
 // ------------------------------------------------------------------
 function initBlogSearch() {
-    var MARK = '【検索】';
+    var MARK = '【検索】';          // 検索欄に置き換える行
+    var END_MARK = '関連する言葉';   // この言葉を含む行で、その質問は終わり
     var bodies = document.querySelectorAll('.blog_body');
     if (bodies.length === 0) return;
 
@@ -614,40 +612,13 @@ function initBlogSearch() {
                 return String.fromCharCode(c.charCodeAt(0) - 0x60);
             });
     }
-
-    var BLOCK = /^(P|DIV|H[1-6]|UL|OL|HR|TABLE|BLOCKQUOTE|FIGURE|IMG)$/;
-    function isWrapper(el) {
-        if (el.nodeType !== 1 || !/^(DIV|SECTION|ARTICLE)$/.test(el.nodeName)) return false;
-        if (/kd-/.test(el.className || '')) return false;
-        for (var c = el.firstElementChild; c; c = c.nextElementSibling) {
-            if (/^(DIV|P|H[1-6]|UL|OL|BLOCKQUOTE|TABLE|FIGURE)$/.test(c.nodeName)) return true;
-        }
-        return false;
+    function textOf(el) {
+        return (el.textContent || '').replace(/\s+/g, ' ').trim();
     }
-
-    function skipBlank(node, dir) {
-        var n = node[dir];
-        while (n && n.nodeType === 3 && !n.nodeValue.trim()) n = n[dir];
-        return n;
-    }
-    function isLineEdge(n) {
-        return !n || n.nodeName === 'BR' || (n.nodeType === 1 && BLOCK.test(n.nodeName));
-    }
-
-    // 「質問の行」かどうか（行まるごとが太字・見出しのもの）
-    function isQuestion(n) {
-        if (n.nodeType !== 1) return false;
-        var text = n.textContent.replace(/\s+/g, '');
-        if (!text) return false;
-        if (/^(B|STRONG)$/.test(n.nodeName)) {
-            return isLineEdge(skipBlank(n, 'previousSibling')) && isLineEdge(skipBlank(n, 'nextSibling'));
-        }
-        if (/^H[2-6]$/.test(n.nodeName)) return true;
-        if (/^(P|DIV|SPAN)$/.test(n.nodeName)) {
-            var b = n.querySelector('b, strong, h2, h3, h4, h5, h6');
-            return !!b && b.textContent.replace(/\s+/g, '') === text;
-        }
-        return false;
+    // 中に別の行（div・pなど）を持たないものが「1行」
+    var LINE_SEL = 'div, p, h1, h2, h3, h4, h5, h6, li';
+    function isLeaf(el) {
+        return !el.querySelector('div, p, h1, h2, h3, h4, h5, h6, li, ul, ol, blockquote, table');
     }
 
     function findMarker(body) {
@@ -695,31 +666,71 @@ function initBlogSearch() {
         if (after && after.nodeName === 'BR') container.removeChild(after);
         container.removeChild(line);
 
-        // 質問ごとの「1組」をつくる
-        var nodes = Array.prototype.slice.call(container.childNodes, Array.prototype.indexOf.call(container.childNodes, box) + 1);
-        var groups = [];
-        var current = null;
-        var flags = nodes.map(isQuestion);
-        nodes.forEach(function (n, i) {
-            if (flags[i]) {
-                current = document.createElement('div');
-                current.className = 'kd-qa-item';
-                container.insertBefore(current, n);
-                groups.push(current);
-            }
-            if (current) current.appendChild(n);
+        // 検索欄より下の「1行」を、順番に集める（枠が何重でも、行だけを見る）
+        var lines = Array.prototype.filter.call(body.querySelectorAll(LINE_SEL), function (el) {
+            return !box.contains(el) && isLeaf(el) &&
+                   (box.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
         });
-        if (groups.length === 0) return;
 
-        var texts = groups.map(function (g) { return norm(g.textContent); });
+        // 行を「見出し」「質問の組」「そのほか」に分ける
+        var units = [];
+        var cur = null;
+        var open = false; // 質問の途中かどうか
+        lines.forEach(function (el) {
+            var t = textOf(el);
+            if (t === '') {                       // 空行は、直前のものにくっつける
+                if (cur) cur.lines.push(el);
+                return;
+            }
+            if (/^H[1-6]$/.test(el.nodeName)) {   // 見出し
+                cur = { type: 'heading', lines: [el], members: [] };
+                units.push(cur);
+                open = false;
+                return;
+            }
+            if (/^[QＱ][.．:：]/.test(t)) {        // 「Q.」で始まる行から、新しい組
+                cur = { type: 'group', lines: [el], text: t };
+                units.push(cur);
+                open = true;
+            } else if (open) {                    // 組の途中
+                cur.lines.push(el);
+                cur.text += ' ' + t;
+            } else {                              // 組の外（最初の説明や、最後の案内など）
+                cur = { type: 'free', lines: [el] };
+                units.push(cur);
+                return;
+            }
+            if (t.indexOf(END_MARK) !== -1) open = false; // 「関連する言葉」の行で、組を閉じる
+        });
+
+        var groups = units.filter(function (u) { return u.type === 'group'; });
+        if (groups.length === 0) return;
+        groups.forEach(function (u) { u.norm = norm(u.text); });
+
+        // 見出しごとに、その下の組を覚える
+        var section = null;
+        units.forEach(function (u) {
+            if (u.type === 'heading') section = u;
+            else if (u.type === 'group' && section) section.members.push(u);
+        });
+
+        function setShown(u, on) {
+            u.shown = on;
+            u.lines.forEach(function (el) { el.classList.toggle('kd-qa-hidden', !on); });
+        }
 
         function apply() {
             var terms = input.value.normalize('NFKC').split(/\s+/).map(norm).filter(Boolean);
             var shown = 0;
-            groups.forEach(function (g, i) {
-                var ok = terms.every(function (t) { return texts[i].indexOf(t) !== -1; });
-                g.classList.toggle('kd-qa-hidden', !ok);
+            groups.forEach(function (u) {
+                var ok = terms.every(function (t) { return u.norm.indexOf(t) !== -1; });
+                setShown(u, ok);
                 if (ok) shown++;
+            });
+            units.forEach(function (u) {
+                if (u.type !== 'heading') return;
+                setShown(u, terms.length === 0 || u.members.length === 0 ||
+                            u.members.some(function (m) { return m.shown; }));
             });
             clear.hidden = input.value === '';
             if (terms.length === 0) {
