@@ -808,7 +808,20 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   transform: scale(1.03);
 }
 
-
+.about-h6-banner{
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  aspect-ratio: 600 / 120;
+  object-fit: cover;
+  margin: 28px auto 0;
+  pointer-events: none;
+  cursor: default;
+}
+.about-h6-banner + h6{
+  margin-top: 8px;
+}
 
 body:has(.blogDetail){
   background: var(--linen-pale);
