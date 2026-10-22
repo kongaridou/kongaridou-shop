@@ -826,6 +826,33 @@ function initBlogAutoLinks() {
 }
 
 
+function initWords() {
+    var words = (window.SITE_CONFIG && window.SITE_CONFIG.words) || {};
+    var PATTERN = /『([^『』]+?)』/g;
+    var SKIP = /^(SCRIPT|STYLE|TEXTAREA|INPUT|NOSCRIPT)$/;
+
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (n) {
+            if (n.nodeValue.indexOf('『') === -1) return NodeFilter.FILTER_REJECT;
+            for (var p = n.parentNode; p && p !== document.body; p = p.parentNode) {
+                if (SKIP.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+        }
+    });
+    var targets = [];
+    var n;
+    while ((n = walker.nextNode())) targets.push(n);
+
+    targets.forEach(function (node) {
+        node.nodeValue = node.nodeValue.replace(PATTERN, function (all, key) {
+            key = key.trim();
+            return Object.prototype.hasOwnProperty.call(words, key) ? String(words[key]) : all;
+        });
+    });
+}
+
+
 // ------------------------------------------------------------------
 // ページ読み込み完了後に、上記の初期化関数をすべて実行
 // ------------------------------------------------------------------
@@ -837,6 +864,7 @@ $(document).ready(function () {
     renderSections();
     renderCardGrid('goodsTypesGrid', window.SITE_CONFIG.goodsTypes);
     renderCardGrid('fabricTypesGrid', window.SITE_CONFIG.fabricTypes);
+    initWords();                 // ← 全ページ共通。描画のあと、ほかの処理より前
     renderAboutToc();
     initRevealLinks();
     initSmoothAnchors();
