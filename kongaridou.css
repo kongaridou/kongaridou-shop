@@ -107,7 +107,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   }
 }
 
-
 /* ==================================================================
    2. メインエリア（4分割の垂れ幕）
 ================================================================== */
@@ -149,7 +148,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   .n-band{ animation: none; }
 }
 @media (max-width: 760px){
-  .n-maindrapes{ height: 70vh; min-height: 400px; }
+  .n-maindrapes{ height: 52vh; min-height: 330px; max-height: 460px; }
   .n-band--1, .n-band--2, .n-band--3{
     display: none;
   }
@@ -166,7 +165,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   background-repeat: repeat;
   background-blend-mode: multiply;
 }
-
 
 /* ==================================================================
    3. NEWSカルーセル（Swiper.js／カバーフローエフェクト）
@@ -260,12 +258,12 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   transform: translateY(-50%) scale(1.08);
 }
 :root{
-  --news-banner-half: 300px; 
+  --news-banner-half: 300px;
   --news-btn-offset: 64px;
 }
 @media (max-width: 760px){
   :root{
-    --news-banner-half: 36vw; 
+    --news-banner-half: 36vw;
   }
 }
 .n-news__prev{
@@ -274,7 +272,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .n-news__next{
   right: calc(50% - var(--news-banner-half) - var(--news-btn-offset));
 }
-
 
 /* ==================================================================
    4. フェードイン紹介セクション（reveal演出）
@@ -341,6 +338,20 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 }
 @media (max-width: 760px){
   .n-reveal-inner{ grid-template-columns: 1fr; }
+  .n-reveal-section{
+    padding: 56px 20px;
+    min-height: 0;
+  }
+  .n-reveal-inner > div{ margin-left: 0; }
+  .n-reveal-illust img{
+    max-width: 72%;
+    margin: 0 auto;
+  }
+  .n-reveal-heading{
+    font-size: 1.2rem;
+    padding: 8px 18px;
+    margin-bottom: 14px;
+  }
 }
 
 .n-reveal{
@@ -357,7 +368,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
 .n-reveal-follow{
   width: 100%;
 }
-
 
 /* ==================================================================
    5. ABOUTページ：目次・セクション共通の骨組み
@@ -433,7 +443,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   text-align: center;
 }
 
-
 /* ==================================================================
    6. ABOUTカード（グッズの種類・布の種類など）
 ================================================================== */
@@ -499,7 +508,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
     margin-top: 16px;
   }
 }
-
 
 /* ==================================================================
    7. 見出しスタイル（about-card / about-block__body 共通）
@@ -571,8 +579,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   margin-top: 20px;
 }
 
-
-
 /* ==================================================================
    8. ブログ記事へのリンク一覧（Q and A・配送についてなどで使用）
 ================================================================== */
@@ -620,8 +626,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   margin: 16px auto;
   cursor: zoom-in;
 }
-
-
 
 /* ==================================================================
    9. タペストリー風メニュー
@@ -673,7 +677,7 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   overflow-y: auto;
   z-index: 1;
 }
- 
+
 
 .tapestry-menu__item{
   margin-bottom: 8px;
@@ -726,7 +730,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   text-decoration: underline;
 }
 
-
 /* ==================================================================
    10. スマホ用ハンバーガーボタン（ヘッダー右下）
 ================================================================== */
@@ -776,6 +779,20 @@ body.shop #mainHeader.site-header nav ul li a:hover{
     display: block !important;
     top:30px;
     transform: translate(-50%, -50%) !important;
+  }
+  /* メニューの無いページ（ブログなど）用に、JSが作る簡易メニュー */
+  .tapestry-menu--sheet{
+    top: 64px;
+    background: var(--band-red);
+  }
+  .tapestry-menu--sheet .tapestry-menu__item{
+    margin-bottom: 12px;
+  }
+}
+/* 簡易メニューはスマホ専用。PCでは出さない */
+@media (min-width: 761px){
+  .tapestry-menu--sheet{
+    display: none !important;
   }
 }
 
@@ -847,13 +864,10 @@ body:has(.blogDetail){
   text-decoration: none;
 }
 
-
-
 .blog_body img{
   display: block;
   margin: 20px auto;
 }
-
 
 .blog_body b{
   display: inline-block;
@@ -884,6 +898,53 @@ body:has(.blogDetail){
   text-decoration: underline;
 }
 
+/* スマホ：ブログ記事の余白と文字を整える
+   （BASE側の「.main #about{padding:0}」に勝つため、詳細度を上げている） */
+@media (max-width: 760px){
+  .main #about.blogDetail{
+    padding: 76px 18px 40px;
+    box-sizing: border-box;
+  }
+  .main #about.blogDetail .blog_inner,
+  .main #about.blogDetail .blog_contents{
+    padding: 0;
+    margin: 0;
+  }
+  .blog_title h2{
+    display: block;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    padding: 8px 14px;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+  .blog_publish .publish_date,
+  .blog_publish p{
+    font-size: 0.8rem;
+    margin: 0 0 18px;
+    color: var(--band-nezumi);
+  }
+  .blog_body{
+    font-size: 0.95rem;
+    line-height: 1.9;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+  .blog_body img{
+    max-width: 100%;
+    height: auto;
+  }
+  .blog_body b{
+    margin: 10px 0 6px;
+    line-height: 1.6;
+  }
+  /* 空行が何行も続く時は、1行分に詰める */
+  .blog_body div:has(> br:only-child) + div:has(> br:only-child){
+    display: none;
+  }
+}
+
 .about-size-list{
   display: flex;
   flex-wrap: wrap;
@@ -901,7 +962,6 @@ color: var(--ink);
   margin-left: 16px;
   border: solid 3px var(--tag-green);
 }
-
 
 .about-section-heading{
   text-align: center;
@@ -1039,6 +1099,57 @@ color: var(--ink);
   color: var(--band-red);
   text-decoration: underline;
 }
+/* スマホ：大カテゴリを3列で横に並べ、中カテゴリはその下に縦に並べる */
+@media (max-width: 760px){
+  .n-category-tree{
+    max-width: 100%;
+  }
+  .n-category-tree__heading{
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+  }
+  .n-category-tree__list{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    align-items: start;
+  }
+  .n-category-tree__large{
+    min-width: 0;
+    text-align: center;
+  }
+  .n-category-tree__large > h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 56px;
+    padding: 6px 4px;
+    background: var(--white);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    text-align: center;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+  .n-category-tree__medium-list{
+    margin: 10px 0 0;
+    padding: 10px 0 0;
+    text-align: center;
+    border-left: none;
+    border-top: 2px solid var(--band-linen);
+  }
+  .n-category-tree__medium{
+    margin-bottom: 8px;
+    line-height: 1.45;
+  }
+  .n-category-tree__medium a{
+    font-size: 0.74rem;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+}
 
 .about-card__price{
   display: block;
@@ -1139,8 +1250,9 @@ color: var(--ink);
 @media (max-width: 760px){
   .n-logo-reveal{
     display: block;
-    top: 24%;
-    width: 100%;
+    top: 44%;
+    left: calc(50% - 4px);
+    width: 90%;
   }
   .n-logo-reveal__piece{
     filter: brightness(0) invert(1);
