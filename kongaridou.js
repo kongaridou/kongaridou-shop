@@ -35,7 +35,6 @@ $(function () {
     }
 });
 
-
 // ------------------------------------------------------------------
 // ページ内リンク(#で始まるa)をクリックした時、加減速しながらスクロールする
 // ------------------------------------------------------------------
@@ -75,7 +74,6 @@ function initSmoothAnchors() {
     });
 }
 
-
 // ------------------------------------------------------------------
 // 目次(about-toc)を SITE_CONFIG.menu から自動生成する
 // ------------------------------------------------------------------
@@ -110,7 +108,6 @@ function initRevealLinks() {
         }
     });
 }
-
 
 // ------------------------------------------------------------------
 // 「背景は普通にスクロール、中身だけゆっくり遅れる」パラレックス
@@ -171,13 +168,6 @@ function initSlowFollow(selector, speedFactor) {
     });
 }
 
-
-
-
-
-
-
-
 // ------------------------------------------------------------------
 // NEWSカルーセル（Swiper.js／カバーフローエフェクト）
 // ------------------------------------------------------------------
@@ -188,7 +178,7 @@ function initNewsCarousel() {
     if (!wrapper || items.length === 0 || typeof Swiper === 'undefined') return;
 
     var uniqueCount = items.length;
-    var minSlides = 8; 
+    var minSlides = 8;
     var paddedItems = items.slice();
     while (paddedItems.length < minSlides) {
         paddedItems = paddedItems.concat(items);
@@ -265,7 +255,6 @@ function renderCardGrid(containerId, items) {
     }).join('');
 }
 
-
 // ------------------------------------------------------------------
 // カード内の画像を拡大表示（BASE標準のColorboxを使用）
 // ------------------------------------------------------------------
@@ -273,7 +262,6 @@ function initAboutLightbox() {
     if (typeof $ === 'undefined' || !$.fn.colorbox) return;
     $('.about-lightbox').colorbox({ maxWidth: '90%', maxHeight: '90%' });
 }
-
 
 // ------------------------------------------------------------------
 // ABOUTページ各セクション本文(SITE_CONFIG.sections)の描画
@@ -286,22 +274,34 @@ function renderSections() {
     });
 }
 
-
 // ------------------------------------------------------------------
 // タペストリーメニュー本体
 // ・SITE_CONFIG.menu から中身を描画
 // ・ドラッグで移動（画面外には出せない）
 // ・ウィンドウリサイズで画面外に出たら位置を戻す
+// ・メニューの無いページ（ブログなど）では、スマホ用の簡易メニューを
+//   その場で作り、「三」ボタンで開閉できるようにする
 // ------------------------------------------------------------------
 function initTapestryMenu() {
     var el = document.getElementById('tapestryMenu');
     var body = document.getElementById('tapestryMenuBody');
     var toggle = document.getElementById('menuToggle');
+    var isSheet = false; // 簡易メニューかどうか
 
     if (!el || !body) {
-        // このページにはタペストリーが無いので、赤いボタン自体を隠す
-        if (toggle) toggle.style.display = 'none';
-        return;
+        // 「三」ボタンも無いページなら、何もしない
+        if (!toggle) return;
+
+        // このページにはタペストリーが無いので、簡易メニューを作る
+        // （PCでは CSS で非表示。スマホだけで使う）
+        el = document.createElement('div');
+        el.className = 'tapestry-menu tapestry-menu--sheet';
+        el.id = 'tapestryMenu';
+        el.innerHTML = '<div class="tapestry-menu__cap"></div>' +
+            '<div class="tapestry-menu__body" id="tapestryMenuBody"></div>';
+        document.body.appendChild(el);
+        body = el.querySelector('.tapestry-menu__body');
+        isSheet = true;
     }
 
     var items = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
@@ -330,6 +330,22 @@ function initTapestryMenu() {
             '</div>';
     }).join('');
 
+    // 簡易メニュー：開閉だけ行う（ドラッグ等は不要）
+    if (isSheet) {
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            el.classList.toggle('is-open');
+        });
+        // リンクを押したら閉じる
+        el.addEventListener('click', function (e) {
+            if (e.target.closest('a')) el.classList.remove('is-open');
+        });
+        // メニューの外を押したら閉じる
+        document.addEventListener('click', function (e) {
+            if (!el.contains(e.target)) el.classList.remove('is-open');
+        });
+        return;
+    }
 
     function clamp(left, top) {
         var w = el.offsetWidth;
@@ -427,7 +443,6 @@ function initTapestryMenu() {
     }
 }
 
-
 // ------------------------------------------------------------------
 // タペストリーメニュー：今見ているセクションのハイライトと副題の出し入れ
 // ------------------------------------------------------------------
@@ -442,7 +457,6 @@ function initTapestryScrollSpy() {
     });
 
     var menuConfig = (window.SITE_CONFIG && window.SITE_CONFIG.menu) || [];
-
 
     function extractSubItems(sectionId) {
         var section = document.getElementById(sectionId);
@@ -577,7 +591,6 @@ function markCurrent(link) {
         ticking = false;
     }
 
-
     window.addEventListener('scroll', function () {
         if (!ticking) {
             window.requestAnimationFrame(updateActive);
@@ -608,7 +621,7 @@ function initBlogSearch() {
     // 全角・半角、大文字・小文字、カタカナ・ひらがなの違いを無視して比べる
     function norm(s) {
         return (s || '').normalize('NFKC').toLowerCase().replace(/\s+/g, '')
-            .replace(/[\u30a1-\u30f6]/g, function (c) {
+            .replace(/[ァ-ヶ]/g, function (c) {
                 return String.fromCharCode(c.charCodeAt(0) - 0x60);
             });
     }
@@ -825,7 +838,6 @@ function initBlogAutoLinks() {
     });
 }
 
-
 function initWords() {
     var words = (window.SITE_CONFIG && window.SITE_CONFIG.words) || {};
     var PATTERN = /『([^『』]+?)』/g;
@@ -852,11 +864,10 @@ function initWords() {
     });
 }
 
-
 // ------------------------------------------------------------------
 // ページ読み込み完了後に、上記の初期化関数をすべて実行
 // ------------------------------------------------------------------
-$(document).ready(function () {    
+$(document).ready(function () {
     initLogoRandomImage();
     initBlogAutoLinks();
     initBlogSearch();
