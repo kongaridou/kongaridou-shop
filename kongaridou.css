@@ -783,7 +783,6 @@ body.shop #mainHeader.site-header nav ul li a:hover{
   /* メニューの無いページ（ブログなど）用に、JSが作る簡易メニュー */
   .tapestry-menu--sheet{
     top: 64px;
-    background: var(--band-red);
   }
   .tapestry-menu--sheet .tapestry-menu__item{
     margin-bottom: 12px;
