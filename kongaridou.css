@@ -929,6 +929,7 @@ body:has(.blogDetail){
     line-height: 1.9;
     word-break: normal;
     overflow-wrap: break-word;
+    line-height: 1.6em;
   }
   .blog_body img{
     max-width: 100%;
