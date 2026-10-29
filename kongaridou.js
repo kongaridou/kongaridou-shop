@@ -864,6 +864,13 @@ function initWords() {
     });
 }
 
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('.about-link-list a[href^="https://drive.google.com/"]');
+  if (!a) return;
+  e.preventDefault();
+  window.open(a.href, '_blank', 'noopener');
+});
+
 // ------------------------------------------------------------------
 // ページ読み込み完了後に、上記の初期化関数をすべて実行
 // ------------------------------------------------------------------
