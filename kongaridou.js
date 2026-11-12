@@ -260,7 +260,18 @@ function renderCardGrid(containerId, items) {
 // ------------------------------------------------------------------
 function initAboutLightbox() {
     if (typeof $ === 'undefined' || !$.fn.colorbox) return;
-    $('.about-lightbox').colorbox({ maxWidth: '90%', maxHeight: '90%' });
+
+    var opts = {
+        maxWidth: '90%',
+        maxHeight: '90%',
+        className: 'aboutCb',          
+        current: '{current} / {total}'
+    };
+
+    $('.about-card__media, .about-image-row').each(function (i) {
+        $(this).find('.about-lightbox').colorbox($.extend({ rel: 'aboutGroup' + i }, opts));
+    });
+    $('.about-lightbox').not('.cboxElement').colorbox(opts);
 }
 
 // ------------------------------------------------------------------
