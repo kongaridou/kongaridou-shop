@@ -1496,3 +1496,32 @@ body#shopDetailPage .itemDescription .desc-rule {
     margin: 16px 0;
     border-top: 1px dotted var(--ink, #3B2A18);
 }
+
+/* 商品ページ：背景を HOME のグッズの種類と同じベージュのテクスチャにする */
+body#shopDetailPage {
+    background: var(--linen-pale, #EFE6CB);
+    background-image: linear-gradient(var(--texture-fade, rgba(255,255,255,0.55)), var(--texture-fade, rgba(255,255,255,0.55))), var(--texture1);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-blend-mode: normal, multiply;
+}
+body#shopDetailPage #mainContent {
+    background-color: transparent;
+}
+
+/* 商品ページ：種類ごとの色（和風の落ち着いた緑） */
+body#shopDetailPage {
+    --band-green: #3A6B4C;
+}
+body#shopDetailPage header h1.itemTitle .title-tag--dekitate { background: var(--band-green); }
+
+/* 商品ページ：カートに入れるボタンの色 */
+body#shopDetailPage.item-type--order #purchase_form .purchaseButton .purchaseButton__btn--addToCart:not(:disabled) {
+    background: var(--band-navy, #1F2C4A);
+}
+body#shopDetailPage.item-type--official #purchase_form .purchaseButton .purchaseButton__btn--addToCart:not(:disabled) {
+    background: var(--band-red, #A63B2E);
+}
+body#shopDetailPage.item-type--dekitate #purchase_form .purchaseButton .purchaseButton__btn--addToCart:not(:disabled) {
+    background: var(--band-green);
+}
