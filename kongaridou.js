@@ -881,6 +881,68 @@ document.addEventListener('click', function (e) {
   e.preventDefault();
   window.open(a.href, '_blank', 'noopener');
 });
+// 商品ページ：タイトル先頭の【】をバッジにする
+function formatItemTitle() {
+    var h = document.querySelector('body#shopDetailPage header h1.itemTitle');
+    if (!h || h.getAttribute('data-formatted')) return;
+    h.setAttribute('data-formatted', '1');
+    var t = h.firstChild;
+    if (!t || t.nodeType !== 3) return;
+    var m = t.nodeValue.match(/^\s*【([^】]+)】\s*([\s\S]*)$/);
+    if (!m) return;
+    var tag = document.createElement('span');
+    tag.className = 'title-tag';
+    if (/オーダー|入稿/.test(m[1])) tag.className += ' title-tag--order';
+    else if (/オフィシャル|公式/.test(m[1])) tag.className += ' title-tag--official';
+    tag.textContent = m[1];
+    t.nodeValue = m[2];
+    h.insertBefore(tag, t);
+}
+
+// 商品ページ：説明文を 1行ずつ包んで、先頭の記号で見た目を変える
+function formatItemDescription() {
+    var p = document.querySelector('body#shopDetailPage .itemDescription p');
+    if (!p || p.getAttribute('data-formatted')) return;
+    p.setAttribute('data-formatted', '1');
+    var lines = [[]];
+    Array.prototype.slice.call(p.childNodes).forEach(function (n) {
+        if (n.nodeName === 'BR') lines.push([]);
+        else lines[lines.length - 1].push(n);
+    });
+    p.textContent = '';
+    lines.forEach(function (nodes, i) {
+        var text = nodes.map(function (n) { return n.textContent; }).join('').replace(/[\s 　]+/g, ' ').trim();
+        var type = 'line';
+        if (!text) type = 'gap';
+        else if (/^【[^】]+】$/.test(text)) type = 'heading';
+        else if (/^-{3,}$/.test(text)) type = 'rule';
+        else if (text.charAt(0) === '※') type = 'note';
+        else if (/^[！!]/.test(text)) type = 'caution';
+        else if (text.charAt(0) === '・') type = 'bullet';
+        if (type === 'gap' && (i === 0 || i === lines.length - 1)) return;
+        var box = document.createElement('div');
+        box.className = 'desc-' + type;
+        if (type === 'heading') box.textContent = text.slice(1, -1);
+        else if (type !== 'gap' && type !== 'rule') nodes.forEach(function (n) { box.appendChild(n); });
+        if (type === 'note' || type === 'caution' || type === 'bullet') {
+            var w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), t;
+            while ((t = w.nextNode())) {
+                if (t.nodeValue.trim()) {
+                    t.nodeValue = t.nodeValue.replace(/^[\s 　]*[※！!・][\s　]*/, '');
+                    break;
+                }
+            }
+        }
+        p.appendChild(box);
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { formatItemTitle(); formatItemDescription(); });
+} else {
+    formatItemTitle();
+    formatItemDescription();
+}
 
 // ------------------------------------------------------------------
 // ページ読み込み完了後に、上記の初期化関数をすべて実行
