@@ -1525,3 +1525,26 @@ body#shopDetailPage.item-type--official #purchase_form .purchaseButton .purchase
 body#shopDetailPage.item-type--dekitate #purchase_form .purchaseButton .purchaseButton__btn--addToCart:not(:disabled) {
     background: var(--band-green);
 }
+/* 商品ページ：背景を HOME のグッズの種類と同じベージュのテクスチャにする（画面いっぱいに固定） */
+body#shopDetailPage {
+    background: var(--linen-pale, #EFE6CB);
+}
+body#shopDetailPage::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--linen-pale, #EFE6CB);
+    background-image: linear-gradient(var(--texture-fade, rgba(255,255,255,0.55)), var(--texture-fade, rgba(255,255,255,0.55))), var(--texture1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: normal, multiply;
+}
+body#shopDetailPage #mainContent {
+    background-color: transparent;
+}
