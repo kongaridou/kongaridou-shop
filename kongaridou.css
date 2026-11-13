@@ -1376,3 +1376,42 @@ color: var(--ink);
   #colorbox.aboutCb #cboxPrevious{ left: 6px; }
   #colorbox.aboutCb #cboxNext{ right: 6px; }
 }
+
+/* 説明文のリンクをボタン風にする */
+body#shopDetailPage .itemDescription a {
+    display: inline-block;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 4px 0 8px;
+    padding: 8px 18px;
+    background: var(--band-navy, #1F2C4A);
+    color: #fff !important;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.5;
+    word-break: break-all;
+    transition: background .2s;
+}
+body#shopDetailPage .itemDescription a:hover {
+    background: var(--band-red, #A63B2E);
+}
+
+/* 決まったリンクは URL の代わりに短い文言を出す */
+body#shopDetailPage .itemDescription a[href*="/about#fabric-types"],
+body#shopDetailPage .itemDescription a[href*="drive.google.com"],
+body#shopDetailPage .itemDescription a[href*="script.google.com"] {
+    font-size: 0;
+    padding: 0;
+}
+body#shopDetailPage .itemDescription a[href*="/about#fabric-types"]::before,
+body#shopDetailPage .itemDescription a[href*="drive.google.com"]::before,
+body#shopDetailPage .itemDescription a[href*="script.google.com"]::before {
+    display: block;
+    padding: 8px 18px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+body#shopDetailPage .itemDescription a[href*="/about#fabric-types"]::before { content: "布の違いを見る"; }
+body#shopDetailPage .itemDescription a[href*="drive.google.com"]::before { content: "入稿用テンプレートを開く"; }
+body#shopDetailPage .itemDescription a[href*="script.google.com"]::before { content: "仕上がりを確かめる"; }
