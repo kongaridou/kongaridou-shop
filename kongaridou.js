@@ -881,7 +881,7 @@ document.addEventListener('click', function (e) {
   e.preventDefault();
   window.open(a.href, '_blank', 'noopener');
 });
-// 商品ページ：タイトル先頭の【】をバッジにする
+// 商品ページ：タイトル先頭の【】をバッジにして、種類をページに記録する
 function formatItemTitle() {
     var h = document.querySelector('body#shopDetailPage header h1.itemTitle');
     if (!h || h.getAttribute('data-formatted')) return;
@@ -890,14 +890,18 @@ function formatItemTitle() {
     if (!t || t.nodeType !== 3) return;
     var m = t.nodeValue.match(/^\s*【([^】]+)】\s*([\s\S]*)$/);
     if (!m) return;
+    var type = '';
+    if (/オーダー|入稿/.test(m[1])) type = 'order';
+    else if (/オフィシャル|公式/.test(m[1])) type = 'official';
+    else if (/できたて/.test(m[1])) type = 'dekitate';
     var tag = document.createElement('span');
-    tag.className = 'title-tag';
-    if (/オーダー|入稿/.test(m[1])) tag.className += ' title-tag--order';
-    else if (/オフィシャル|公式/.test(m[1])) tag.className += ' title-tag--official';
+    tag.className = 'title-tag' + (type ? ' title-tag--' + type : '');
     tag.textContent = m[1];
     t.nodeValue = m[2];
     h.insertBefore(tag, t);
+    if (type) document.body.className += ' item-type--' + type;
 }
+
 
 // 商品ページ：説明文を 1行ずつ包んで、先頭の記号で見た目を変える
 function formatItemDescription() {
