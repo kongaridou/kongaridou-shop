@@ -1551,3 +1551,83 @@ body#shopDetailPage #mainContent {
 
 #shopHeader .categoryTitle01,
 #shopHeader .childCategoryList01 { display: none; }
+
+/* kongaridou.css の一番下に足す。
+   あわせて、すでにある「.n-news__dot」と「.n-news__dot.is-active」の2つは、使わなくなるので消してよい */
+
+/* NEWSのサムネ（最大８）。前面のものだけ赤い枠が光り、左上に種類の色が付く */
+.n-news__pagination{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+.n-news__thumb{
+  appearance: none;
+  position: relative;
+  width: 96px;
+  height: 96px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--linen-pale);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.n-news__thumb img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.n-news__thumb:hover{
+  opacity: 0.85;
+}
+.n-news__thumb:focus-visible{
+  outline: 2px solid var(--band-navy);
+  outline-offset: 3px;
+}
+.n-news__thumb.is-active{
+  opacity: 1;
+  transform: scale(1.04);
+  box-shadow: 0 0 0 3px var(--white), 0 0 0 6px var(--band-red), 0 0 16px 6px rgba(166,59,46,0.45);
+}
+
+/* 左上の斜めにカットした色（種類ごと） */
+.n-news__thumb--info,
+.n-news__thumb--event,
+.n-news__thumb--dekitate{
+  --tag-color: var(--band-navy);
+}
+.n-news__thumb--event{ --tag-color: var(--band-red); }
+.n-news__thumb--dekitate{ --tag-color: var(--band-green, #3A6B4C); }
+.n-news__thumb--info::before,
+.n-news__thumb--event::before,
+.n-news__thumb--dekitate::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  background: var(--tag-color);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+@media (max-width: 760px){
+  .n-news__pagination{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 96px));
+    justify-content: center;
+    gap: 14px 12px;
+  }
+  .n-news__thumb{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+
