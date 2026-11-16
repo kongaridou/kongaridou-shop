@@ -172,10 +172,24 @@ function initSlowFollow(selector, speedFactor) {
 // NEWSカルーセル（Swiper.js／カバーフローエフェクト）
 // ------------------------------------------------------------------
 
+var NEWS_TAG_CLASS = {
+    'おしらせ系': 'info',
+    'イベント系': 'event',
+    'できたて系': 'dekitate'
+};
+
 function initNewsCarousel() {
-    var items = (window.SITE_CONFIG && window.SITE_CONFIG.news) || [];
+    var items = ((window.SITE_CONFIG && window.SITE_CONFIG.news) || []).slice(0, 8);
+    var tagGroups = (window.SITE_CONFIG && window.SITE_CONFIG.newsTags) || {};
     var wrapper = document.getElementById('newsSwiperWrapper');
     if (!wrapper || items.length === 0 || typeof Swiper === 'undefined') return;
+
+    function groupClassOf(tag) {
+        var name = Object.keys(tagGroups).filter(function (key) {
+            return tagGroups[key].indexOf(tag) !== -1;
+        })[0];
+        return NEWS_TAG_CLASS[name] || '';
+    }
 
     var uniqueCount = items.length;
     var minSlides = 8;
@@ -215,33 +229,36 @@ function initNewsCarousel() {
         }
     });
 
-    // 〇は「水増しした枚数」ではなく「本当の件数」ぶんだけ作る
     var pagEl = document.querySelector('.n-news__pagination');
     if (pagEl) {
         pagEl.innerHTML = items.map(function (item, i) {
-            return '<span class="n-news__dot" data-index="' + i + '"></span>';
+            var group = groupClassOf(item.tag);
+            var pos = item.thumb || 'right';
+            return '<button type="button" class="n-news__thumb' + (group ? ' n-news__thumb--' + group : '')
+                + '" data-index="' + i + '" aria-label="' + (i + 1) + '番目のお知らせ">'
+                + '<img src="' + item.image + '" alt="" style="object-position:' + pos + ' center"></button>';
         }).join('');
 
-        var dots = pagEl.querySelectorAll('.n-news__dot');
+        var thumbs = pagEl.querySelectorAll('.n-news__thumb');
 
-        function setActiveDot() {
+        function setActiveThumb() {
             var current = swiper.realIndex % uniqueCount;
-            dots.forEach(function (dot, i) {
-                dot.classList.toggle('is-active', i === current);
+            thumbs.forEach(function (thumb, i) {
+                thumb.classList.toggle('is-active', i === current);
             });
         }
 
-        dots.forEach(function (dot) {
-            dot.addEventListener('click', function () {
-                var idx = parseInt(dot.getAttribute('data-index'), 10);
-                swiper.slideToLoop(idx);
+        thumbs.forEach(function (thumb) {
+            thumb.addEventListener('click', function () {
+                swiper.slideToLoop(parseInt(thumb.getAttribute('data-index'), 10));
             });
         });
 
-        swiper.on('slideChange', setActiveDot);
-        setActiveDot();
+        swiper.on('slideChange', setActiveThumb);
+        setActiveThumb();
     }
 }
+
 
 // ------------------------------------------------------------------
 // グッズの種類・布の種類のカードを並べる
