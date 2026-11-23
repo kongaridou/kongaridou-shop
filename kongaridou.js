@@ -874,6 +874,9 @@ function initBlogAutoLinks() {
                 frag.appendChild(document.createTextNode(text.slice(last, m.index)));
                 var a = document.createElement('a');
                 a.href = url;
+                if (url.indexOf('https://script.google.com/') === 0) {
+                  a.target = '_blank'; a.rel = 'noopener';
+                }
                 a.textContent = label;
                 frag.appendChild(a);
                 last = m.index + m[0].length;
