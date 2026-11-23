@@ -916,11 +916,26 @@ function initWords() {
 }
 
 document.addEventListener('click', function (e) {
-  var a = e.target.closest('.about-link-list a[href^="https://drive.google.com/"]');
+  var a = e.target.closest('a[href^="https://script.google.com/"], a[href^="https://drive.google.com/"]');
   if (!a) return;
   e.preventDefault();
   window.open(a.href, '_blank', 'noopener');
 });
+
+// 開けないときの案内：Googleのページへのリンクの下に出す
+function addOpenHint() {
+    var text = (window.SITE_CONFIG && window.SITE_CONFIG.openHint) || '開けないときは、シークレットウィンドウ（スマホは別のブラウザ）で開いてください。';
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://script.google.com/"]'), function (a) {
+        if (a.getAttribute('data-open-hint')) return;
+        a.setAttribute('data-open-hint', '1');
+        var s = document.createElement('span');
+        s.className = 'open-hint';
+        s.textContent = text;
+        a.insertAdjacentElement('afterend', s);
+    });
+}
+if (document.readyState === 'complete') addOpenHint(); else window.addEventListener('load', addOpenHint);
+
 // 商品ページ：タイトル先頭の【】をバッジにして、種類をページに記録する
 function formatItemTitle() {
     var h = document.querySelector('body#shopDetailPage header h1.itemTitle');
